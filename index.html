@@ -187,8 +187,7 @@
     <div style="display:flex;justify-content:center;">
       <div class="suggest-card centered-suggest" role="region" aria-label="Suggestion box" style="max-width:880px;width:100%;padding:14px;margin-top:12px">
         <form id="suggest-form" class="suggest-form" onsubmit="return submitSuggestionAjax(event)" autocomplete="off" style="display:flex;flex-direction:column;gap:8px;width:100%">
-          <label class="small" for="s-text" style="display:block;margin-bottom:2px;font-weight:700;text-align:left">Hit me with your ideas, fling your critiques, or summon the post you crave.
-</label>
+          <label class="small" for="s-text" style="display:block;margin-bottom:2px;font-weight:700;text-align:left">Hit me with your ideas, fling your critiques, or summon the post you crave.</label>
           <textarea id="s-text" name="message" placeholder="Short idea, comment or a link..." required></textarea>
           <div style="display:flex;justify-content:flex-end;align-items:center">
             <div id="suggest-status" class="suggest-status" style="margin-right:auto"></div>
@@ -203,7 +202,8 @@
     </div>
   </footer>
 
- 
+  <!-- floating suggest button -->
+  <button class="suggest-float-btn" id="open-suggest-btn">Suggest</button>
 
   <!-- suggestion modal (hidden by default) -->
   <div class="suggest-modal-overlay" id="suggest-modal" role="dialog" aria-modal="true" aria-hidden="true">
@@ -327,34 +327,170 @@
     </section>
   </template>
 
+<!-- Supabase client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/bundled/supabase.min.js"></script>
+
 <script>
 /* ---------- CONFIG ---------- */
 const DEFAULT_POSTS = [
   { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'https://placehold.co/1600x900/1b1b1b/ffffff?text=Welcome', content:'# Hello\n\nThis is **Emmiti** — write posts in Markdown.\n\n- Item one\n- Item two', fontChoice:'default' },
   { id:'sample', title:'Magenta Dreams', date:'2025-09-08', excerpt:'Styled with magenta & purple.', tags:['style'], image:'https://placehold.co/1200x800/333/fff?text=Magenta+Dreams', content:'### Colors\n\nThis theme uses **black**, **grey**, **magenta** and **purple**.', fontChoice:'fontA' }
 ];
+// client-side admin password (change if desired)
 const ADMIN_PASS = 'secret';
 const SUGGESTION_EMAIL = 'helloemmiti@gmail.com'; // fallback and used for formsubmit
 
-/* ---------- STATE ---------- */
-let posts = [];
-let isLoggedIn = false;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">Emmiti — blog</div>
+    <div id="loading">Loading posts…</div>
+    <div id="posts"></div>
+  </div>
 
-/* ---------- HELPERS ---------- */
+  <script>
+    /* ---------- CONFIG (replace the anon key below) ---------- */
+    const SUPABASE_URL = 'https://zowkyufjsbgsqgteqhue.supabase.co'; // your project URL (you already have this)
+    const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE'; // <-- replace with anon public key from Supabase Settings → API
+    /* --------------------------------------------------------- */
+
+    // Keep a small set of default/hardcoded posts so your page shows something if fetch fails.
+    const DEFAULT_POSTS = [
+      { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'' },
+      { id:'sample', title:'Magenta Dreams', date:'2025-09-08', excerpt:'Styled with magenta & purple.', tags:['style'], image:'https://placekitten.com/400/200' }
+    ];
+
+    // Create supabase client using the UMD global `supabase` from the CDN.
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const postsDiv = document.getElementById('posts');
+    const loadingEl = document.getElementById('loading');
+
+    // Render helper
+    function renderPosts(posts) {
+      postsDiv.innerHTML = ''; // clear
+      if (!posts || posts.length === 0) {
+        postsDiv.innerHTML = '<p>No posts yet.</p>';
+        return;
+      }
+
+      // Create post nodes
+      posts.forEach(p => {
+        const postEl = document.createElement('article');
+        postEl.className = 'post';
+
+        const imgSrc = p.image || p.image_url || '';
+        const imgHtml = imgSrc ? `<img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(p.title || '')}">` : `<div style="width:160px;height:100px;background:#f5f5f5;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#999">No image</div>`;
+
+        const tagsHtml = (p.tags && Array.isArray(p.tags))
+          ? p.tags.map(t => `<span class="tags">${escapeHtml(t)}</span>`).join(' ')
+          : (typeof p.tags === 'string' ? `<span class="tags">${escapeHtml(p.tags)}</span>` : '');
+
+        postEl.innerHTML = `
+          <div>${imgHtml}</div>
+          <div style="flex:1;">
+            <div class="meta">${escapeHtml(formatDate(p.date || p.created_at || ''))}</div>
+            <h2 style="margin:0 0 8px 0">${escapeHtml(p.title || 'Untitled')}</h2>
+            <p style="margin:0 0 8px 0">${escapeHtml(p.excerpt || '')}</p>
+            <div>${tagsHtml}</div>
+          </div>
+        `;
+        postsDiv.appendChild(postEl);
+      });
+    }
+
+    // Basic date formatting
+    function formatDate(d) {
+      if (!d) return '';
+      // try ISO parse
+      const dt = new Date(d);
+      if (!isNaN(dt)) {
+        return dt.toLocaleDateString();
+      }
+      return d;
+    }
+
+    // Very small HTML escape to avoid injection
+    function escapeHtml(str) {
+      if (!str && str !== 0) return '';
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    // Load posts from Supabase
+    async function loadPosts() {
+      loadingEl.textContent = 'Loading posts from Supabase…';
+      try {
+        // adjust select columns if needed (here we select all)
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .order('date', { ascending: false });
+
+        if (error) {
+          console.error('Supabase query error:', error);
+          // fallback to defaults
+          loadingEl.textContent = 'Using default posts (query error). Check console.';
+          renderPosts(DEFAULT_POSTS);
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          loadingEl.textContent = 'No posts in DB — showing defaults.';
+          renderPosts(DEFAULT_POSTS);
+          return;
+        }
+
+        loadingEl.style.display = 'none';
+        renderPosts(data);
+      } catch (err) {
+        console.error('Fetch error:', err);
+        loadingEl.textContent = 'Failed to load posts — using defaults. Check console.';
+        renderPosts(DEFAULT_POSTS);
+      }
+    }
+
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', loadPosts);
+  </script>
+
+/* ---------- helpers ---------- */
 const byId = id => document.getElementById(id);
 const q = (s,ctx=document) => ctx.querySelector(s);
-
-function safeLoad(){
-  try {
-    const raw = localStorage.getItem('blogPosts');
-    posts = raw ? JSON.parse(raw) : DEFAULT_POSTS.slice();
-  } catch(e) {
-    console.error('load', e); posts = DEFAULT_POSTS.slice();
-  }
-  isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-}
-function savePosts(){ try { localStorage.setItem('blogPosts', JSON.stringify(posts)); } catch(e){ console.error('save', e); } }
 function slugify(s){ return String(s).toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'').replace(/\-+/g,'-'); }
+function savePosts(){ try { localStorage.setItem('blogPosts', JSON.stringify(posts)); } catch(e){ console.error('save', e); } }
+function safeLoad(){ try { const raw = localStorage.getItem('blogPosts'); posts = raw ? JSON.parse(raw) : DEFAULT_POSTS.slice(); } catch(e){ console.error('load', e); posts = DEFAULT_POSTS.slice(); } isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; }
+
+/* ---------- supabase init ---------- */
+const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* ---------- remote helpers ---------- */
+async function fetchRemotePosts(){
+  try {
+    const { data, error } = await supabase.from('posts').select('*').order('date', { ascending: false });
+    if(error){ console.error('supabase fetch error', error); return null; }
+    return data || [];
+  } catch(err){ console.error('fetchRemotePosts', err); return null; }
+}
+async function saveRemotePost(post){
+  try{
+    const { data, error } = await supabase.from('posts').upsert(post, { onConflict:['id'] });
+    if(error){ console.error('supabase upsert error', error); return { ok:false, error }; }
+    return { ok:true, data };
+  }catch(err){ console.error('saveRemotePost error', err); return { ok:false, error:err }; }
+}
+async function deleteRemotePost(id){
+  try{
+    const { data, error } = await supabase.from('posts').delete().eq('id', id);
+    if(error){ console.error('supabase delete error', error); return { ok:false, error }; }
+    return { ok:true, data };
+  }catch(err){ console.error('deleteRemotePost error', err); return { ok:false, error:err }; }
+}
 
 /* ---------- IMAGE READ + RESIZE ---------- */
 function readImageFileAsJpegDataURL(file, maxW = 1600, maxH = 900, quality = 0.85){
@@ -364,21 +500,13 @@ function readImageFileAsJpegDataURL(file, maxW = 1600, maxH = 900, quality = 0.8
     reader.onload = function(e){
       const img = new Image();
       img.onload = function(){
-        // compute size
         let w = img.width, h = img.height;
         const ratio = w / h;
-        if(w > maxW){
-          w = maxW;
-          h = Math.round(maxW / ratio);
-        }
-        if(h > maxH){
-          h = maxH;
-          w = Math.round(maxH * ratio);
-        }
+        if(w > maxW){ w = maxW; h = Math.round(maxW / ratio); }
+        if(h > maxH){ h = maxH; w = Math.round(maxH * ratio); }
         const canvas = document.createElement('canvas');
         canvas.width = w; canvas.height = h;
         const ctx = canvas.getContext('2d');
-        // draw white background to avoid PNG transparency artifacts when saving to JPEG
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0,0,w,h);
         ctx.drawImage(img, 0, 0, w, h);
@@ -386,11 +514,10 @@ function readImageFileAsJpegDataURL(file, maxW = 1600, maxH = 900, quality = 0.8
           const dataUrl = canvas.toDataURL('image/jpeg', quality);
           resolve(dataUrl);
         } catch(err){
-          // fallback: return original data URL (possibly PNG)
           resolve(e.target.result);
         }
       };
-      img.onerror = ()=> resolve(e.target.result); // fallback to raw data url
+      img.onerror = ()=> resolve(e.target.result);
       img.src = e.target.result;
     };
     reader.onerror = ()=> reject(new Error('Failed reading file'));
@@ -412,23 +539,16 @@ function mdToHtml(md){
   text = text.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
   text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  
   const lines = text.split('\n');
   let out = []; let inList = false;
   for(let i=0;i<lines.length;i++){
     const line = lines[i];
     const m = line.match(/^\s*([-\*])\s+(.*)/);
-    if(m){
-      if(!inList){ out.push('<ul>'); inList = true; }
-      out.push('<li>'+m[2]+'</li>');
-    } else {
-      if(inList){ out.push('</ul>'); inList = false; }
-      out.push(line);
-    }
+    if(m){ if(!inList){ out.push('<ul>'); inList = true; } out.push('<li>'+m[2]+'</li>'); }
+    else { if(inList){ out.push('</ul>'); inList = false; } out.push(line); }
   }
   if(inList) out.push('</ul>');
   text = out.join('\n');
-
   const parts = text.split(/\n{2,}/).map(p=>p.trim()).filter(Boolean);
   return parts.map(p => {
     if(p.startsWith('<h')||p.startsWith('<ul')||p.startsWith('<pre')||p.startsWith('<img')||p.startsWith('<span')) return p;
@@ -443,39 +563,21 @@ function isNew(dateStr, days=7){
   return (Date.now() - t) <= days * 24 * 60 * 60 * 1000;
 }
 
-/* ---------- PASTE HANDLING: improved for Word HTML; preserves paragraphs, bold, italic ---------- */
+/* ---------- PASTE HANDLING ---------- */
 function htmlToMarkdownSimple(html){
   if(!html) return '';
-  html = html.replace(/<o:p>\s*<\/o:p>/g, '')
-             .replace(/<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '')
-             .replace(/\s*mso-[^:;]+:[^;"]+;?/gi, '');
-
+  html = html.replace(/<o:p>\s*<\/o:p>/g, '').replace(/<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '').replace(/\s*mso-[^:;]+:[^;"]+;?/gi, '');
   const parser = new DOMParser();
   const doc = parser.parseFromString(`<div id="wrapper">${html}</div>`, 'text/html');
   const wrapper = doc.getElementById('wrapper');
-
   function nodeToMarkdown(node){
-    if(node.nodeType === Node.TEXT_NODE){
-      return node.nodeValue.replace(/\u00A0/g,' ').replace(/\s+/g, ' ');
-    }
+    if(node.nodeType === Node.TEXT_NODE) return node.nodeValue.replace(/\u00A0/g,' ').replace(/\s+/g, ' ');
     const tag = node.tagName ? node.tagName.toLowerCase() : '';
     const style = node.getAttribute && node.getAttribute('style') ? node.getAttribute('style').toLowerCase() : '';
-
     if(tag === 'br') return '\n';
-    if(tag === 'p' || tag === 'div'){
-      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('');
-      return inner.trim() + '\n\n';
-    }
-    if(tag === 'strong' || tag === 'b'){
-      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
-      if(!inner) return '';
-      return ' ' + `**${inner}**` + ' ';
-    }
-    if(tag === 'em' || tag === 'i'){
-      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
-      if(!inner) return '';
-      return ' ' + `*${inner}*` + ' ';
-    }
+    if(tag === 'p' || tag === 'div'){ const inner = Array.from(node.childNodes).map(nodeToMarkdown).join(''); return inner.trim() + '\n\n'; }
+    if(tag === 'strong' || tag === 'b'){ const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim(); if(!inner) return ''; return ' ' + `**${inner}**` + ' '; }
+    if(tag === 'em' || tag === 'i'){ const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim(); if(!inner) return ''; return ' ' + `*${inner}*` + ' '; }
     if(tag === 'span' && style){
       const isItalic = /font-style\s*:\s*italic/.test(style);
       const isBold = /font-weight\s*:\s*(bold|700|800|900)/.test(style);
@@ -486,42 +588,17 @@ function htmlToMarkdownSimple(html){
       if(isItalic) return ' ' + `*${content}*` + ' ';
       return ' ' + content + ' ';
     }
-    if(tag === 'h1' || tag === 'h2' || tag === 'h3'){
-      const level = parseInt(tag.replace('h',''),10);
-      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
-      return '\n' + '#'.repeat(level) + ' ' + inner + '\n\n';
-    }
-    if(tag === 'ul' || tag === 'ol'){
-      const items = Array.from(node.children).map((li, idx) => {
-        const content = Array.from(li.childNodes).map(nodeToMarkdown).join('').trim();
-        if(tag === 'ul') return `- ${content}`;
-        return `${idx+1}. ${content}`;
-      }).join('\n');
-      return items + '\n\n';
-    }
-    if(tag === 'li'){
-      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
-      return `- ${inner}\n`;
-    }
-    if(tag === 'a'){
-      const href = node.getAttribute('href') || '';
-      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
-      if(href) return ` [${inner}](${href}) `;
-      return ' ' + inner + ' ';
-    }
-    if(tag === 'img'){
-      const alt = node.getAttribute('alt') || '';
-      const src = node.getAttribute('src') || '';
-      return ` ![${alt}](${src}) `;
-    }
+    if(tag === 'h1' || tag === 'h2' || tag === 'h3'){ const level = parseInt(tag.replace('h',''),10); const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim(); return '\n' + '#'.repeat(level) + ' ' + inner + '\n\n'; }
+    if(tag === 'ul' || tag === 'ol'){ const items = Array.from(node.children).map((li, idx) => { const content = Array.from(li.childNodes).map(nodeToMarkdown).join('').trim(); if(tag === 'ul') return `- ${content}`; return `${idx+1}. ${content}`; }).join('\n'); return items + '\n\n'; }
+    if(tag === 'li'){ const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim(); return `- ${inner}\n`; }
+    if(tag === 'a'){ const href = node.getAttribute('href') || ''; const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim(); if(href) return ` [${inner}](${href}) `; return ' ' + inner + ' '; }
+    if(tag === 'img'){ const alt = node.getAttribute('alt') || ''; const src = node.getAttribute('src') || ''; return ` ![${alt}](${src}) `; }
     return Array.from(node.childNodes).map(nodeToMarkdown).join('');
   }
-
   let out = Array.from(wrapper.childNodes).map(nodeToMarkdown).join('');
   out = out.replace(/\s+/g, ' ').replace(/\s+([.,;:!?])/g, '$1').replace(/\n{3,}/g, '\n\n').trim();
   return out;
 }
-
 function handlePasteToTextarea(e){
   const ta = e.target;
   const clipboard = e.clipboardData || window.clipboardData;
@@ -547,11 +624,9 @@ function applyFontChoiceToPostElements(el, fontChoice){
   const titleEl = el.querySelector('#post-title');
   const metaEl = el.querySelector('#post-meta');
   const contentEl = el.querySelector('#post-content');
-
   titleEl.className = '';
   metaEl.className = 'meta';
   contentEl.className = '';
-
   if(!fontChoice || fontChoice === 'default'){
     titleEl.classList.add('font-title-space');
     metaEl.classList.add('font-tags-mont');
@@ -626,7 +701,6 @@ function renderPost(id){
   }
 
   tpl.querySelector('#post-content').innerHTML = mdToHtml(p.content || '');
-
   applyFontChoiceToPostElements(tpl, p.fontChoice);
 
   const actions = tpl.querySelector('#post-actions');
@@ -635,9 +709,14 @@ function renderPost(id){
     const edit = document.createElement('button'); edit.className = 'btn-ghost'; edit.textContent = 'Edit';
     edit.onclick = ()=> { renderAdmin(); setTimeout(()=> loadIntoForm(p.id), 120); };
     const del = document.createElement('button'); del.className = 'btn-mag'; del.textContent = 'Delete';
-    del.onclick = ()=> {
+    del.onclick = async ()=> {
       if(confirm('Delete this post?')) {
-        posts = posts.filter(x=>x.id!==p.id); savePosts(); location.hash = 'home';
+        posts = posts.filter(x=>x.id!==p.id);
+        savePosts();
+        // attempt remote delete
+        const res = await deleteRemotePost(p.id);
+        if(!res.ok) console.warn('Remote delete failed', res.error);
+        location.hash = 'home';
       }
     };
     actions.appendChild(edit); actions.appendChild(del);
@@ -689,9 +768,7 @@ function loadIntoForm(id){
   byId('admin-tags').value = (p.tags||[]).join(', ');
   // show existing image if present
   showAdminImagePreview(p.image || '');
-  // clear file input to avoid accidental overwrite
-  const fileInput = byId('admin-image-file');
-  if(fileInput) fileInput.value = '';
+  const fileInput = byId('admin-image-file'); if(fileInput) fileInput.value = '';
   byId('admin-content').value = p.content || '';
   byId('admin-font').value = p.fontChoice || 'default';
   byId('admin-form-title').textContent = 'Edit Post';
@@ -711,21 +788,13 @@ async function adminSave(){
   const excerpt = byId('admin-excerpt').value.trim();
   const tags = (byId('admin-tags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
   const imageFile = byId('admin-image-file') ? byId('admin-image-file').files[0] : null;
-  let image = ''; // will hold Data URL or existing
-  // If user uploaded a new file, convert/resample to JPEG data URL
+  let image = '';
   if(imageFile){
-    try {
-      image = await readImageFileAsJpegDataURL(imageFile);
-    } catch(err){
-      console.error('image read error', err);
-      alert('Failed to read image — using existing or none.');
-      image = (byId('admin-image-preview') && byId('admin-image-preview').getAttribute('data-src')) || '';
-    }
+    try { image = await readImageFileAsJpegDataURL(imageFile); }
+    catch(err){ console.error('image read error', err); alert('Failed to read image — using existing or none.'); image = (byId('admin-image-preview') && byId('admin-image-preview').getAttribute('data-src')) || ''; }
   } else {
-    // no new file chosen: keep existing preview image if present
     image = (byId('admin-image-preview') && byId('admin-image-preview').getAttribute('data-src')) || '';
   }
-
   const content = byId('admin-content').value.trim();
   const fontChoice = byId('admin-font').value || 'default';
   const dateStr = new Date().toISOString().split('T')[0];
@@ -740,7 +809,10 @@ async function adminSave(){
     posts[idx].content = content;
     posts[idx].fontChoice = fontChoice;
     savePosts();
-    alert('Post updated');
+    // remote update
+    const res = await saveRemotePost({ id: editId, title, excerpt, tags, image, content, fontChoice, date: dateStr });
+    if(!res.ok) alert('Updated locally but remote save failed. Check console.');
+    else alert('Post updated (local & remote).');
     renderAdmin();
   } else {
     const id = slugify(title) || Date.now().toString();
@@ -748,12 +820,15 @@ async function adminSave(){
     if(posts.length === 0) posts.unshift(newPost);
     else posts.splice(1,0,newPost);
     savePosts();
-    alert('Post created');
+    // remote create
+    const res = await saveRemotePost({ id, title, excerpt, tags, image, content, fontChoice, date: dateStr });
+    if(!res.ok) alert('Created locally but failed to publish remotely — check console.');
+    else alert('Post created (local & remote).');
     renderAdmin();
   }
 }
 
-/* ---------- SUGGESTION: auto-submit to Formsubmit.co with fallback ---------- */
+/* ---------- SUGGESTION ---------- */
 async function submitSuggestionAjax(e){
   e.preventDefault();
   const ta = byId('s-text') || byId('s-text-modal');
@@ -761,31 +836,18 @@ async function submitSuggestionAjax(e){
   if(!ta) return false;
   const text = (ta.value || '').trim();
   if(!text){ status.textContent = 'Write something first.'; return false; }
-
   status.style.color = ''; status.textContent = 'Sending…';
   const endpoint = 'https://formsubmit.co/ajax/helloemmiti@gmail.com';
-  const payload = {
-    message: text,
-    _subject: 'Emmiti suggestion',
-    _captcha: 'false'
-  };
-
+  const payload = { message: text, _subject: 'Emmiti suggestion', _captcha: 'false' };
   try{
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    const res = await fetch(endpoint, { method:'POST', headers:{ 'Content-Type':'application/json','Accept':'application/json' }, body: JSON.stringify(payload) });
     const json = await res.json();
     if(res.ok && json.success !== false){
       status.style.color = ''; status.textContent = 'Sent — thanks!';
       ta.value = '';
       setTimeout(()=> status.textContent = '', 2500);
-      // close modal after send
       setTimeout(()=> closeSuggestModal(), 900);
-    } else {
-      throw new Error((json.message || 'Send failed'));
-    }
+    } else { throw new Error((json.message || 'Send failed')); }
   }catch(err){
     console.error('Suggest send', err);
     status.style.color = '#ffb3b3';
@@ -799,17 +861,13 @@ async function submitSuggestionAjax(e){
 
 /* ---------- SUGGESTION MODAL HANDLERS ---------- */
 function openSuggestModal(){
-  const overlay = byId('suggest-modal');
-  if(!overlay) return;
-  overlay.style.display = 'flex';
-  overlay.setAttribute('aria-hidden','false');
-  const ta = byId('s-text'); if(ta){ ta.focus(); }
+  const overlay = byId('suggest-modal'); if(!overlay) return;
+  overlay.style.display = 'flex'; overlay.setAttribute('aria-hidden','false');
+  const ta = byId('s-text'); if(ta) ta.focus();
 }
 function closeSuggestModal(){
-  const overlay = byId('suggest-modal');
-  if(!overlay) return;
-  overlay.style.display = 'none';
-  overlay.setAttribute('aria-hidden','true');
+  const overlay = byId('suggest-modal'); if(!overlay) return;
+  overlay.style.display = 'none'; overlay.setAttribute('aria-hidden','true');
   const status = byId('suggest-status'); if(status) status.textContent = '';
 }
 
@@ -821,9 +879,8 @@ function renderAdmin(){
     main.appendChild(login);
     byId('login-go').onclick = ()=> {
       const val = byId('login-pass').value || '';
-      if(val === ADMIN_PASS){
-        isLoggedIn = true; localStorage.setItem('isLoggedIn','true'); updateUI(); renderAdmin();
-      } else alert('Incorrect password');
+      if(val === ADMIN_PASS){ isLoggedIn = true; localStorage.setItem('isLoggedIn','true'); updateUI(); renderAdmin(); }
+      else alert('Incorrect password');
     };
     byId('login-cancel').onclick = ()=> location.hash = 'home';
     return;
@@ -844,7 +901,7 @@ function renderAdmin(){
     const edit = document.createElement('button'); edit.className='btn-ghost'; edit.textContent='Edit';
     edit.onclick = ()=> { loadIntoForm(p.id); };
     const del = document.createElement('button'); del.className='btn-mag'; del.textContent='Delete';
-    del.onclick = ()=> { if(confirm('Delete?')){ posts = posts.filter(x=>x.id!==p.id); savePosts(); renderAdmin(); location.hash='home'; } };
+    del.onclick = async ()=> { if(confirm('Delete?')){ posts = posts.filter(x=>x.id!==p.id); savePosts(); const res = await deleteRemotePost(p.id); if(!res.ok) console.warn('remote delete failed', res.error); renderAdmin(); location.hash='home'; } };
     controls.appendChild(feat); controls.appendChild(edit); controls.appendChild(del);
     item.appendChild(left); item.appendChild(controls);
     list.appendChild(item);
@@ -874,11 +931,13 @@ function renderAdmin(){
     const inp = document.createElement('input'); inp.type = 'file'; inp.accept='.json,application/json';
     inp.onchange = (e)=> {
       const f = e.target.files[0]; if(!f) return;
-      const reader = new FileReader(); reader.onload = ()=> {
+      const reader = new FileReader(); reader.onload = async ()=> {
         try {
           const data = JSON.parse(reader.result);
           if(!Array.isArray(data)) throw new Error('Invalid JSON (expected array).');
-          posts = data; savePosts(); alert('Imported posts'); renderAdmin();
+          posts = data; savePosts(); // attempt to upsert all remotely
+          for(const p of posts){ await saveRemotePost(p).catch(()=>{}); }
+          alert('Imported posts'); renderAdmin();
         } catch(err){ alert('Import failed: '+err.message); }
       }; reader.readAsText(f);
     };
@@ -903,13 +962,11 @@ function renderAdmin(){
     fileInput.addEventListener('change', async (ev)=>{
       const f = ev.target.files[0];
       if(!f){ showAdminImagePreview(''); return; }
-      // create a temporary preview (scale down using canvas)
       try{
         const preview = await readImageFileAsJpegDataURL(f, 600, 400, 0.8);
         showAdminImagePreview(preview);
       }catch(err){
         console.error('preview error', err);
-        // fallback to raw preview
         const r = new FileReader();
         r.onload = ()=> showAdminImagePreview(r.result);
         r.readAsDataURL(f);
@@ -945,17 +1002,36 @@ function updateUI(){
 
 /* ---------- INIT ---------- */
 window.addEventListener('hashchange', router);
-window.addEventListener('load', ()=>{
-  safeLoad(); updateUI();
+window.addEventListener('load', async ()=>{
+  // Try to fetch remote posts; fallback to local defaults/localStorage
+  try{
+    const remote = await fetchRemotePosts();
+    if(remote && remote.length){
+      posts = remote.map(r => ({
+        id: r.id,
+        title: r.title,
+        excerpt: r.excerpt,
+        tags: Array.isArray(r.tags) ? r.tags : (r.tags ? String(r.tags).split(',').map(s=>s.trim()) : []),
+        image: r.image,
+        content: r.content,
+        fontChoice: r.fontChoice || 'default',
+        date: r.date ? (typeof r.date === 'string' ? r.date : new Date(r.date).toISOString().split('T')[0]) : (r.created_at ? r.created_at.split('T')[0] : new Date().toISOString().split('T')[0])
+      }));
+      savePosts();
+    } else {
+      safeLoad();
+    }
+  }catch(err){
+    console.error('init fetch error', err);
+    safeLoad();
+  }
+
+  updateUI();
   const twitter = byId('twitter'); if(twitter) twitter.href = 'https://twitter.com/askmewhywhat';
   const createBtn = byId('create-post-btn'); if(createBtn) createBtn.addEventListener('click', e=>{ e.preventDefault(); location.hash='create-post'; });
-  // suggestion modal bindings
-  const openBtn = byId('open-suggest-btn');
-  if(openBtn) openBtn.addEventListener('click', openSuggestModal);
-  const closeBtn = byId('close-suggest');
-  if(closeBtn) closeBtn.addEventListener('click', closeSuggestModal);
-  const overlay = byId('suggest-modal');
-  if(overlay) overlay.addEventListener('click', (ev)=> { if(ev.target === overlay) closeSuggestModal(); });
+  const openBtn = byId('open-suggest-btn'); if(openBtn) openBtn.addEventListener('click', openSuggestModal);
+  const closeBtn = byId('close-suggest'); if(closeBtn) closeBtn.addEventListener('click', closeSuggestModal);
+  const overlay = byId('suggest-modal'); if(overlay) overlay.addEventListener('click', (ev)=> { if(ev.target === overlay) closeSuggestModal(); });
   router();
 });
 </script>
