@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Emmiti - A emmiti blog</title>
   <meta name="description" content="Single-file blog with Markdown + Admin (create/edit/delete)" />
-  <!-- Broadway-like display (Rye) and Rockwell-like slab (Roboto Slab) -->
   <link href="https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Slab:wght@300;400;700&family=Space+Grotesk:wght@400;600;700&family=Montserrat:wght@300;600&family=Merriweather:ital,wght@0,700;1,400&family=Inter:wght@300;600&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -29,13 +28,10 @@
 
     header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:linear-gradient(90deg,#0b0b0d,#121217);position:sticky;top:0;z-index:80;border-bottom:4px solid var(--red-line);}    
     #brand{display:flex;gap:12px;align-items:center}
-    /* Logo E: Broadway-like (Rye) */
     #logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--magenta),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Rye', 'Space Grotesk', system-ui;font-size:28px;letter-spacing:1px}
-    /* Site title & tagline: Broadway-like */
     #site-title{font-family:'Rye', 'Space Grotesk', system-ui;font-weight:700;letter-spacing:0.6px;font-size:20px}
     #brand .small{font-family:'Rye', 'Merriweather', serif; font-size:12px; opacity:0.9}
 
-    /* Nav, suggest button and footer use Rockwell-like (Roboto Slab) */
     nav a{font-family:'Roboto Slab', 'Montserrat', serif; color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600}
     nav a:hover{color:var(--magenta)}
 
@@ -54,7 +50,6 @@
         background-position: center;
         background-image: var(--bg-image);
         z-index: 1;
-        /* blur & dim background image behind title */
         filter: blur(8px) brightness(0.6);
         transform: scale(1.05);
     }
@@ -82,7 +77,6 @@
 
     .post{background:var(--panel);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);margin-top:20px}
     .post-cover{height:40vh;min-height:200px;border-radius:10px;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    /* blurred background for opened post (applies same blur as hero) */
     .post-cover::before {
       content: '';
       position: absolute;
@@ -114,13 +108,11 @@
     label{display:block;margin-bottom:6px;font-weight:700}
 
     footer{margin:36px 0;color:var(--muted);text-align:center}
-    /* footer & small links: Rockwell-like */
     .footer-link{font-family:'Roboto Slab', serif; color:var(--magenta);font-weight:700;text-decoration:none}
 
     .small{font-size:0.9rem;color:var(--muted)}
     .muted{color:var(--muted)}
 
-    /* suggestion modal */
     .suggest-float-btn{
       position:fixed;right:18px;bottom:18px;z-index:200;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;border:none;border-radius:999px;padding:12px 14px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer; font-family:'Roboto Slab', serif; }
     .suggest-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:210;padding:20px}
@@ -130,10 +122,8 @@
     .suggest-btn{padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;cursor:pointer;font-weight:700}
     .suggest-status{font-size:0.85rem;color:var(--muted)}
 
-    /* s-text visuals */
     #s-text { background: rgba(0,0,0,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.04); font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height:1.6; border-radius:8px; padding:10px; width:100%; min-height:90px; max-height:240px; white-space:pre-wrap; }
 
-    /* fonts fallbacks (keep original styles elsewhere) */
     .font-title-space { font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:700; }
     .font-title-merri { font-family: 'Merriweather', Georgia, serif; font-weight:700; font-style:normal; }
     .font-title-inter { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:600; }
@@ -150,12 +140,10 @@
 
     .font-preview{padding:8px;border-radius:8px;border:1px dashed rgba(255,255,255,0.03);margin-top:6px}
 
-    /* live preview */
     #live-preview{margin-top:12px;padding:12px;background:rgba(255,255,255,0.01);border-radius:8px;border:1px solid rgba(255,255,255,0.03);max-height:360px;overflow:auto}
     #live-preview h1,#live-preview h2,#live-preview h3{margin:6px 0}
     #live-preview p{margin:8px 0}
 
-    /* image preview inside admin */
     .image-preview-wrap{display:flex;gap:8px;align-items:center;margin-top:6px}
     .image-preview-wrap img{max-width:120px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);object-fit:cover;max-height:90px}
     .remove-image-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:6px 8px;border-radius:8px;cursor:pointer}
@@ -202,10 +190,8 @@
     </div>
   </footer>
 
-  <!-- floating suggest button -->
   <button class="suggest-float-btn" id="open-suggest-btn">Suggest</button>
 
-  <!-- suggestion modal (hidden by default) -->
   <div class="suggest-modal-overlay" id="suggest-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="suggest-modal" role="document">
       <button class="suggest-close" id="close-suggest" aria-label="Close suggestion dialog">✕</button>
@@ -303,7 +289,6 @@
         <label>Markdown content</label>
         <textarea id="admin-content" placeholder="# Hello"></textarea>
 
-        <!-- live preview -->
         <div id="live-preview" class="md-font-1"></div>
 
         <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
@@ -328,10 +313,17 @@
   </template>
 
 <!-- Supabase client -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/bundled/supabase.min.js"></script>
+<!-- Use the UMD build from jsdelivr (if blocked, try the unpkg line below instead) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+<!-- fallback alternative if jsdelivr is blocked:
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+-->
 
 <script>
 /* ---------- CONFIG ---------- */
+const SUPABASE_URL = 'https://zowkyufjsbgsqgteqhue.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpvd2t5dWZqc2Jnc3FndGVxaHVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1ODM0ODgsImV4cCI6MjA3MzE1OTQ4OH0.Lc6pGp5d0xwaxaSjr9vm-weOG6i3HHsFRZP70ti7law'; // anon public key
+
 const DEFAULT_POSTS = [
   { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'https://placehold.co/1600x900/1b1b1b/ffffff?text=Welcome', content:'# Hello\n\nThis is **Emmiti** — write posts in Markdown.\n\n- Item one\n- Item two', fontChoice:'default' },
   { id:'sample', title:'Magenta Dreams', date:'2025-09-08', excerpt:'Styled with magenta & purple.', tags:['style'], image:'https://placehold.co/1200x800/333/fff?text=Magenta+Dreams', content:'### Colors\n\nThis theme uses **black**, **grey**, **magenta** and **purple**.', fontChoice:'fontA' }
@@ -339,125 +331,6 @@ const DEFAULT_POSTS = [
 // client-side admin password (change if desired)
 const ADMIN_PASS = 'secret';
 const SUGGESTION_EMAIL = 'helloemmiti@gmail.com'; // fallback and used for formsubmit
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-</head>
-<body>
-  <div class="container">
-    <div class="hero">Emmiti — blog</div>
-    <div id="loading">Loading posts…</div>
-    <div id="posts"></div>
-  </div>
-
-  <script>
-    /* ---------- CONFIG (replace the anon key below) ---------- */
-    const SUPABASE_URL = 'https://zowkyufjsbgsqgteqhue.supabase.co'; // your project URL (you already have this)
-    const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE'; // <-- replace with anon public key from Supabase Settings → API
-    /* --------------------------------------------------------- */
-
-    // Keep a small set of default/hardcoded posts so your page shows something if fetch fails.
-    const DEFAULT_POSTS = [
-      { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'' },
-      { id:'sample', title:'Magenta Dreams', date:'2025-09-08', excerpt:'Styled with magenta & purple.', tags:['style'], image:'https://placekitten.com/400/200' }
-    ];
-
-    // Create supabase client using the UMD global `supabase` from the CDN.
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const postsDiv = document.getElementById('posts');
-    const loadingEl = document.getElementById('loading');
-
-    // Render helper
-    function renderPosts(posts) {
-      postsDiv.innerHTML = ''; // clear
-      if (!posts || posts.length === 0) {
-        postsDiv.innerHTML = '<p>No posts yet.</p>';
-        return;
-      }
-
-      // Create post nodes
-      posts.forEach(p => {
-        const postEl = document.createElement('article');
-        postEl.className = 'post';
-
-        const imgSrc = p.image || p.image_url || '';
-        const imgHtml = imgSrc ? `<img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(p.title || '')}">` : `<div style="width:160px;height:100px;background:#f5f5f5;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#999">No image</div>`;
-
-        const tagsHtml = (p.tags && Array.isArray(p.tags))
-          ? p.tags.map(t => `<span class="tags">${escapeHtml(t)}</span>`).join(' ')
-          : (typeof p.tags === 'string' ? `<span class="tags">${escapeHtml(p.tags)}</span>` : '');
-
-        postEl.innerHTML = `
-          <div>${imgHtml}</div>
-          <div style="flex:1;">
-            <div class="meta">${escapeHtml(formatDate(p.date || p.created_at || ''))}</div>
-            <h2 style="margin:0 0 8px 0">${escapeHtml(p.title || 'Untitled')}</h2>
-            <p style="margin:0 0 8px 0">${escapeHtml(p.excerpt || '')}</p>
-            <div>${tagsHtml}</div>
-          </div>
-        `;
-        postsDiv.appendChild(postEl);
-      });
-    }
-
-    // Basic date formatting
-    function formatDate(d) {
-      if (!d) return '';
-      // try ISO parse
-      const dt = new Date(d);
-      if (!isNaN(dt)) {
-        return dt.toLocaleDateString();
-      }
-      return d;
-    }
-
-    // Very small HTML escape to avoid injection
-    function escapeHtml(str) {
-      if (!str && str !== 0) return '';
-      return String(str)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-    }
-
-    // Load posts from Supabase
-    async function loadPosts() {
-      loadingEl.textContent = 'Loading posts from Supabase…';
-      try {
-        // adjust select columns if needed (here we select all)
-        const { data, error } = await supabase
-          .from('posts')
-          .select('*')
-          .order('date', { ascending: false });
-
-        if (error) {
-          console.error('Supabase query error:', error);
-          // fallback to defaults
-          loadingEl.textContent = 'Using default posts (query error). Check console.';
-          renderPosts(DEFAULT_POSTS);
-          return;
-        }
-
-        if (!data || data.length === 0) {
-          loadingEl.textContent = 'No posts in DB — showing defaults.';
-          renderPosts(DEFAULT_POSTS);
-          return;
-        }
-
-        loadingEl.style.display = 'none';
-        renderPosts(data);
-      } catch (err) {
-        console.error('Fetch error:', err);
-        loadingEl.textContent = 'Failed to load posts — using defaults. Check console.';
-        renderPosts(DEFAULT_POSTS);
-      }
-    }
-
-    // Run on page load
-    document.addEventListener('DOMContentLoaded', loadPosts);
-  </script>
 
 /* ---------- helpers ---------- */
 const byId = id => document.getElementById(id);
@@ -467,26 +340,27 @@ function savePosts(){ try { localStorage.setItem('blogPosts', JSON.stringify(pos
 function safeLoad(){ try { const raw = localStorage.getItem('blogPosts'); posts = raw ? JSON.parse(raw) : DEFAULT_POSTS.slice(); } catch(e){ console.error('load', e); posts = DEFAULT_POSTS.slice(); } isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; }
 
 /* ---------- supabase init ---------- */
-const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+/* IMPORTANT: use a different variable name than the global `supabase` to avoid TDZ/name collision */
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /* ---------- remote helpers ---------- */
 async function fetchRemotePosts(){
   try {
-    const { data, error } = await supabase.from('posts').select('*').order('date', { ascending: false });
+    const { data, error } = await supabaseClient.from('posts').select('*').order('date', { ascending: false });
     if(error){ console.error('supabase fetch error', error); return null; }
     return data || [];
   } catch(err){ console.error('fetchRemotePosts', err); return null; }
 }
 async function saveRemotePost(post){
   try{
-    const { data, error } = await supabase.from('posts').upsert(post, { onConflict:['id'] });
+    const { data, error } = await supabaseClient.from('posts').upsert(post, { onConflict:['id'] });
     if(error){ console.error('supabase upsert error', error); return { ok:false, error }; }
     return { ok:true, data };
   }catch(err){ console.error('saveRemotePost error', err); return { ok:false, error:err }; }
 }
 async function deleteRemotePost(id){
   try{
-    const { data, error } = await supabase.from('posts').delete().eq('id', id);
+    const { data, error } = await supabaseClient.from('posts').delete().eq('id', id);
     if(error){ console.error('supabase delete error', error); return { ok:false, error }; }
     return { ok:true, data };
   }catch(err){ console.error('deleteRemotePost error', err); return { ok:false, error:err }; }
@@ -652,6 +526,9 @@ function applyFontChoiceToPostElements(el, fontChoice){
   }
 }
 
+let posts = [];
+let isLoggedIn = false;
+
 function renderHome(){
   const main = byId('main'); main.innerHTML = '';
   if(posts.length){
@@ -692,7 +569,6 @@ function renderPost(id){
   const tpl = byId('post-tpl').content.firstElementChild.cloneNode(true);
   tpl.querySelector('#post-title').textContent = p.title;
   tpl.querySelector('#post-meta').textContent = p.date + (p.tags && p.tags.length ? ' • ' + p.tags.join(', ') : '');
-  // set CSS variable for blurred background (so blur filter is always applied)
   const postCover = tpl.querySelector('#post-cover');
   if(p.image && postCover){
     postCover.style.setProperty('--post-bg-image', `url(${p.image})`);
@@ -713,7 +589,6 @@ function renderPost(id){
       if(confirm('Delete this post?')) {
         posts = posts.filter(x=>x.id!==p.id);
         savePosts();
-        // attempt remote delete
         const res = await deleteRemotePost(p.id);
         if(!res.ok) console.warn('Remote delete failed', res.error);
         location.hash = 'home';
@@ -766,7 +641,6 @@ function loadIntoForm(id){
   byId('admin-title').value = p.title || '';
   byId('admin-excerpt').value = p.excerpt || '';
   byId('admin-tags').value = (p.tags||[]).join(', ');
-  // show existing image if present
   showAdminImagePreview(p.image || '');
   const fileInput = byId('admin-image-file'); if(fileInput) fileInput.value = '';
   byId('admin-content').value = p.content || '';
@@ -809,7 +683,6 @@ async function adminSave(){
     posts[idx].content = content;
     posts[idx].fontChoice = fontChoice;
     savePosts();
-    // remote update
     const res = await saveRemotePost({ id: editId, title, excerpt, tags, image, content, fontChoice, date: dateStr });
     if(!res.ok) alert('Updated locally but remote save failed. Check console.');
     else alert('Post updated (local & remote).');
@@ -820,7 +693,6 @@ async function adminSave(){
     if(posts.length === 0) posts.unshift(newPost);
     else posts.splice(1,0,newPost);
     savePosts();
-    // remote create
     const res = await saveRemotePost({ id, title, excerpt, tags, image, content, fontChoice, date: dateStr });
     if(!res.ok) alert('Created locally but failed to publish remotely — check console.');
     else alert('Post created (local & remote).');
@@ -907,7 +779,6 @@ function renderAdmin(){
     list.appendChild(item);
   });
 
-  // bindings
   byId('save-btn').onclick = ()=> adminSave();
   byId('clear-btn').onclick = ()=> {
     byId('edit-id').value=''; byId('admin-title').value=''; byId('admin-excerpt').value=''; byId('admin-tags').value=''; byId('admin-content').value=''; byId('admin-font').value='default';
@@ -956,7 +827,6 @@ function renderAdmin(){
     updatePreview();
   }
 
-  // image upload preview + remove
   const fileInput = byId('admin-image-file');
   if(fileInput){
     fileInput.addEventListener('change', async (ev)=>{
@@ -1003,7 +873,6 @@ function updateUI(){
 /* ---------- INIT ---------- */
 window.addEventListener('hashchange', router);
 window.addEventListener('load', async ()=>{
-  // Try to fetch remote posts; fallback to local defaults/localStorage
   try{
     const remote = await fetchRemotePosts();
     if(remote && remote.length){
