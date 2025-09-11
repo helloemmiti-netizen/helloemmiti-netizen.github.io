@@ -3,19 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Emmiti / EmmitiLog — Markdown Blog</title>
+  <title>Emmiti - A emmiti blog</title>
   <meta name="description" content="Single-file blog with Markdown + Admin (create/edit/delete)" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Montserrat:wght@300;600&family=Merriweather:ital,wght@0,700&display=swap" rel="stylesheet">
+  <!-- Broadway-like display (Rye) and Rockwell-like slab (Roboto Slab) -->
+  <link href="https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Slab:wght@300;400;700&family=Space+Grotesk:wght@400;600;700&family=Montserrat:wght@300;600&family=Merriweather:ital,wght@0,700;1,400&family=Inter:wght@300;600&display=swap" rel="stylesheet">
   <style>
-    /* Palette: black / grey / magenta / purple + red accent line */
     :root{
       --bg:#08080a;
       --panel:#0f1114;
       --muted:rgba(255,255,255,0.65);
       --magenta:#ff00cc;
       --purple:#8a2be2;
-      --red-line: #ff2e5c;     /* the red line color you wanted */
-      --glass: rgba(255,255,255,0.03);
+      --red-line:#ff2e5c;
       --radius:12px;
     }
     *{box-sizing:border-box}
@@ -23,59 +22,46 @@
       margin:0;
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
       background: linear-gradient(180deg,var(--bg),#050506);
-      color: #fff;
+      color:#fff;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
 
-    /* Header */
-    header{
-      display:flex;align-items:center;justify-content:space-between;padding:16px 22px;
-      background:linear-gradient(90deg,#0b0b0d,#121217);
-      position:sticky;top:0;z-index:80;
-      /* thin red line immediately under header (full width) */
-      border-bottom: 4px solid var(--red-line);
-    }
+    header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:linear-gradient(90deg,#0b0b0d,#121217);position:sticky;top:0;z-index:80;border-bottom:4px solid var(--red-line);}    
     #brand{display:flex;gap:12px;align-items:center}
-    #logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--magenta),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Space Grotesk}
-    #site-title{font-family:Space Grotesk;font-weight:700;letter-spacing:0.6px}
-    nav a{color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600}
+    /* Logo E: Broadway-like (Rye) */
+    #logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--magenta),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Rye', 'Space Grotesk', system-ui;font-size:28px;letter-spacing:1px}
+    /* Site title & tagline: Broadway-like */
+    #site-title{font-family:'Rye', 'Space Grotesk', system-ui;font-weight:700;letter-spacing:0.6px;font-size:20px}
+    #brand .small{font-family:'Rye', 'Merriweather', serif; font-size:12px; opacity:0.9}
+
+    /* Nav, suggest button and footer use Rockwell-like (Roboto Slab) */
+    nav a{font-family:'Roboto Slab', 'Montserrat', serif; color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600}
     nav a:hover{color:var(--magenta)}
 
     .container{max-width:1180px;margin:26px auto;padding:0 18px}
 
-    /* HERO band: add top and bottom red lines (exactly like your screenshots) */
-    .hero{
-      border-radius:var(--radius);
-      overflow:hidden;
-      background:linear-gradient(180deg,rgba(138,43,226,0.04),rgba(0,0,0,0.25));
-      border: 1px solid rgba(255,255,255,0.03);
-      position: relative;
-      margin-top: 20px;
-      /* top and bottom red lines */
-      box-shadow: inset 0 6px 0 0 rgba(0,0,0,0.2);
-    }
-    .hero::before{
-      content: "";
-      position:absolute;
-      left:0; right:0;
-      top:0;
-      height:4px;
-      background:var(--red-line);
-    }
-    .hero::after{
-      content: "";
-      position:absolute;
-      left:0; right:0;
-      bottom:0;
-      height:4px;
-      background:var(--red-line);
-      border-bottom-left-radius:var(--radius);
-      border-bottom-right-radius:var(--radius);
-    }
-
+    .hero{border-radius:var(--radius);overflow:hidden;background:linear-gradient(180deg,rgba(138,43,226,0.04),rgba(0,0,0,0.25));border:1px solid rgba(255,255,255,0.03);position:relative;margin-top:20px;box-shadow:inset 0 6px 0 0 rgba(0,0,0,0.2)}
+    .hero::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--red-line)}
+    .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--red-line);border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius)}
     .hero-side{width:64px;background:linear-gradient(180deg,#0c0c0f,#060608);display:flex;align-items:center;justify-content:center}
-    .hero-center{flex:1;padding:36px;position:relative;min-height:260px}
+    .hero-center{flex:1;padding:36px;position:relative;min-height:260px; display:flex; align-items:center; justify-content:center; text-align:center;}
+    .hero-center::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        background-image: var(--bg-image);
+        z-index: 1;
+        /* blur & dim background image behind title */
+        filter: blur(8px) brightness(0.6);
+        transform: scale(1.05);
+    }
+    .hero-center > * {
+        position: relative;
+        z-index: 2;
+    }
     .hero-water{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:900;font-size:110px;color:rgba(255,255,255,0.04);pointer-events:none;white-space:nowrap}
     .hero-inner{position:relative;z-index:2;text-align:center}
     .hero-title{font-family:Merriweather,serif;font-size:40px;margin:0}
@@ -95,12 +81,24 @@
     .new-badge{position:absolute;top:12px;left:12px;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;padding:6px 8px;border-radius:999px;font-weight:700;z-index:4;font-size:12px}
 
     .post{background:var(--panel);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);margin-top:20px}
-    .post-cover{height:40vh;min-height:200px;border-radius:10px;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center}
-    .post-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.6));border-radius:10px}
-    .post h1{position:relative;z-index:2;margin:0}
+    .post-cover{height:40vh;min-height:200px;border-radius:10px;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    /* blurred background for opened post (applies same blur as hero) */
+    .post-cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-image: var(--post-bg-image);
+      z-index: 1;
+      filter: blur(8px) brightness(0.6);
+      transform: scale(1.03);
+      border-radius:10px;
+    }
+    .post-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.6));border-radius:10px;z-index:2}
+    .post h1{position:relative;z-index:3;margin:0}
     .meta{color:var(--muted);margin-top:8px}
 
-    /* Admin panel */
     .admin-grid{display:grid;grid-template-columns:1fr;gap:16px}
     @media(min-width:990px){.admin-grid{grid-template-columns:2fr 1fr}}
     .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
@@ -112,14 +110,55 @@
     .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
 
     input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff}
-    textarea{min-height:120px;resize:vertical}
+    textarea{min-height:120px;resize:vertical;line-height:1.6;white-space:pre-wrap}
     label{display:block;margin-bottom:6px;font-weight:700}
 
     footer{margin:36px 0;color:var(--muted);text-align:center}
-    a.footer-link{color:var(--magenta);font-weight:700;text-decoration:none}
+    /* footer & small links: Rockwell-like */
+    .footer-link{font-family:'Roboto Slab', serif; color:var(--magenta);font-weight:700;text-decoration:none}
 
     .small{font-size:0.9rem;color:var(--muted)}
     .muted{color:var(--muted)}
+
+    /* suggestion modal */
+    .suggest-float-btn{
+      position:fixed;right:18px;bottom:18px;z-index:200;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;border:none;border-radius:999px;padding:12px 14px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer; font-family:'Roboto Slab', serif; }
+    .suggest-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:210;padding:20px}
+    .suggest-modal{background:var(--panel);border-radius:14px;padding:18px;max-width:760px;width:100%;border:1px solid rgba(255,255,255,0.04)}
+    .suggest-close{position:absolute;right:22px;top:18px;background:transparent;border:none;color:var(--muted);font-weight:700;cursor:pointer}
+
+    .suggest-btn{padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;cursor:pointer;font-weight:700}
+    .suggest-status{font-size:0.85rem;color:var(--muted)}
+
+    /* s-text visuals */
+    #s-text { background: rgba(0,0,0,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.04); font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height:1.6; border-radius:8px; padding:10px; width:100%; min-height:90px; max-height:240px; white-space:pre-wrap; }
+
+    /* fonts fallbacks (keep original styles elsewhere) */
+    .font-title-space { font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:700; }
+    .font-title-merri { font-family: 'Merriweather', Georgia, serif; font-weight:700; font-style:normal; }
+    .font-title-inter { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:600; }
+
+    .font-tags-mont { font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:600; letter-spacing:0.6px; text-transform:lowercase; }
+    .font-tags-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; font-weight:600; font-size:0.95rem; }
+
+    .tag-pill { display:inline-block;padding:6px 8px;margin-right:8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700;font-size:0.85rem; }
+
+    .md-font-1 { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:300; line-height:1.65; }
+    .md-font-2 { font-family: 'Merriweather', Georgia, serif; font-weight:400; line-height:1.7; }
+    .md-font-3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight:600; line-height:1.6; }
+    .md-font-4 { font-family: 'Merriweather', Georgia, serif; font-weight:700; font-style:italic; line-height:1.6; }
+
+    .font-preview{padding:8px;border-radius:8px;border:1px dashed rgba(255,255,255,0.03);margin-top:6px}
+
+    /* live preview */
+    #live-preview{margin-top:12px;padding:12px;background:rgba(255,255,255,0.01);border-radius:8px;border:1px solid rgba(255,255,255,0.03);max-height:360px;overflow:auto}
+    #live-preview h1,#live-preview h2,#live-preview h3{margin:6px 0}
+    #live-preview p{margin:8px 0}
+
+    /* image preview inside admin */
+    .image-preview-wrap{display:flex;gap:8px;align-items:center;margin-top:6px}
+    .image-preview-wrap img{max-width:120px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);object-fit:cover;max-height:90px}
+    .remove-image-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:6px 8px;border-radius:8px;cursor:pointer}
   </style>
 </head>
 <body>
@@ -127,8 +166,8 @@
     <div id="brand">
       <div id="logo">E</div>
       <div>
-        <div id="site-title">Emmiti / EmmitiLog</div>
-        <div class="small muted">Black • Grey • Magenta • Purple</div>
+        <div id="site-title">Emmiti</div>
+        <div class="small muted">A emmiti blog</div>
       </div>
     </div>
 
@@ -143,11 +182,46 @@
   <main class="container" id="main"></main>
 
   <footer>
-    <div>© 2025 Emmiti</div>
-    <div><a id="twitter" class="footer-link" href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer">@yourhandle</a></div>
+    <div style="font-family:'Roboto Slab', serif">© 2025 Emmiti</div>
+
+    <div style="display:flex;justify-content:center;">
+      <div class="suggest-card centered-suggest" role="region" aria-label="Suggestion box" style="max-width:880px;width:100%;padding:14px;margin-top:12px">
+        <form id="suggest-form" class="suggest-form" onsubmit="return submitSuggestionAjax(event)" autocomplete="off" style="display:flex;flex-direction:column;gap:8px;width:100%">
+          <label class="small" for="s-text" style="display:block;margin-bottom:2px;font-weight:700;text-align:left">Send a suggestion</label>
+          <textarea id="s-text" name="message" placeholder="Short idea, comment or a link..." required></textarea>
+          <div style="display:flex;justify-content:flex-end;align-items:center">
+            <div id="suggest-status" class="suggest-status" style="margin-right:auto"></div>
+            <button type="submit" class="suggest-btn" style="padding:8px 12px;font-size:0.95rem">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div style="margin-top:8px">
+      <a id="twitter" class="footer-link" href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer">@askmewhywhat</a>
+    </div>
   </footer>
 
-  <!-- TEMPLATES -->
+  <!-- floating suggestion button -->
+  <button class="suggest-float-btn" id="open-suggest-btn" aria-haspopup="dialog" aria-controls="suggest-modal">Suggest</button>
+
+  <!-- suggestion modal (hidden by default) -->
+  <div class="suggest-modal-overlay" id="suggest-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="suggest-modal" role="document">
+      <button class="suggest-close" id="close-suggest" aria-label="Close suggestion dialog">✕</button>
+      <h3 style="margin-top:0">Send a suggestion</h3>
+      <p class="small muted" style="margin-top:4px">Short idea, comment or a link...</p>
+      <form id="suggest-form-2" class="suggest-form" onsubmit="return submitSuggestionAjax(event)" autocomplete="off" style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+        <label class="small" for="s-text-modal" style="display:block;margin-bottom:2px;font-weight:700">Message</label>
+        <textarea id="s-text-modal" name="message" placeholder="Short idea, comment or a link..." required></textarea>
+        <div style="display:flex;justify-content:flex-end;align-items:center">
+          <div id="suggest-status-modal" class="suggest-status" style="margin-right:auto"></div>
+          <button type="submit" class="suggest-btn" style="padding:8px 12px;font-size:0.95rem">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <template id="hero-tpl">
     <div class="hero">
       <div class="hero-side"></div>
@@ -182,7 +256,7 @@
         <a class="muted" href="#home">← Back</a>
         <div id="post-actions"></div>
       </div>
-      <div class="post-cover" id="post-cover"><h1 style="position:relative;z-index:2" id="post-title">Title</h1></div>
+      <div class="post-cover" id="post-cover"><h1 style="position:relative;z-index:3" id="post-title">Title</h1></div>
       <div class="meta" id="post-meta"></div>
       <div id="post-content"></div>
     </article>
@@ -206,12 +280,32 @@
         <input type="hidden" id="edit-id" />
         <label>Title</label>
         <input id="admin-title" placeholder="Title" />
+        <label>Subtitle / Excerpt</label>
+        <input id="admin-excerpt" placeholder="A short, catchy subtitle..." />
         <label>Tags (comma separated)</label>
         <input id="admin-tags" placeholder="tag1, tag2" />
-        <label>Image URL (optional)</label>
-        <input id="admin-image" placeholder="https://..." />
+        <label>Upload image (JPEG/PNG) — used as blurred background in title</label>
+        <input id="admin-image-file" type="file" accept="image/jpeg,image/png" />
+        <div class="image-preview-wrap" id="admin-image-preview-wrap" style="display:none">
+          <img id="admin-image-preview" src="" alt="preview" />
+          <button id="remove-image-btn" class="remove-image-btn" type="button">Remove</button>
+        </div>
+
+        <label>Font choice (applies to Title / Tags / Markdown)</label>
+        <select id="admin-font">
+          <option value="default">Default (Space Grotesk / Montserrat / Inter)</option>
+          <option value="fontA">Title: SpaceGrotesk • Tags: Montserrat • MD: Inter (soft)</option>
+          <option value="fontB">Title: Merriweather • Tags: Montserrat • MD: Merriweather (serif)</option>
+          <option value="fontC">Title: Inter • Tags: Mono • MD: SpaceGrotesk (edgy)</option>
+        </select>
+        <div class="font-preview small muted">Preview: <span id="font-preview-sample">Title / tags / markdown sample</span></div>
+
         <label>Markdown content</label>
         <textarea id="admin-content" placeholder="# Hello"></textarea>
+
+        <!-- live preview -->
+        <div id="live-preview" class="md-font-1"></div>
+
         <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
           <button id="save-btn" class="btn-mag">Save</button>
           <button id="clear-btn" class="btn-ghost">Clear</button>
@@ -233,285 +327,637 @@
     </section>
   </template>
 
-  <!-- SCRIPTS -->
-  <script>
-  // ---------- CONFIG ----------
-  const DEFAULT_POSTS = [
-    { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'https://placehold.co/1600x900/1b1b1b/ffffff?text=Welcome', content:'# Hello\n\nThis is **Emmiti** — write posts in Markdown.\n\n- Item one\n- Item two' },
-    { id:'sample', title:'Magenta Dreams', date:'2025-09-08', excerpt:'Styled with magenta & purple.', tags:['style'], image:'https://placehold.co/1200x800/333/fff?text=Magenta+Dreams', content:'### Colors\n\nThis theme uses **black**, **grey**, **magenta** and **purple**.' }
-  ];
-  const ADMIN_PASS = 'secret';
+<script>
+/* ---------- CONFIG ---------- */
+const DEFAULT_POSTS = [
+  { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'https://placehold.co/1600x900/1b1b1b/ffffff?text=Welcome', content:'# Hello\n\nThis is **Emmiti** — write posts in Markdown.\n\n- Item one\n- Item two', fontChoice:'default' },
+  { id:'sample', title:'Magenta Dreams', date:'2025-09-08', excerpt:'Styled with magenta & purple.', tags:['style'], image:'https://placehold.co/1200x800/333/fff?text=Magenta+Dreams', content:'### Colors\n\nThis theme uses **black**, **grey**, **magenta** and **purple**.', fontChoice:'fontA' }
+];
+const ADMIN_PASS = 'secret';
+const SUGGESTION_EMAIL = 'helloemmiti@gmail.com'; // fallback and used for formsubmit
 
-  // ---------- STATE ----------
-  let posts = [];
-  let isLoggedIn = false;
+/* ---------- STATE ---------- */
+let posts = [];
+let isLoggedIn = false;
 
-  // ---------- HELPERS ----------
-  const byId = id => document.getElementById(id);
-  const q = (s,ctx=document) => ctx.querySelector(s);
+/* ---------- HELPERS ---------- */
+const byId = id => document.getElementById(id);
+const q = (s,ctx=document) => ctx.querySelector(s);
 
-  function safeLoad(){
-    try {
-      const raw = localStorage.getItem('blogPosts');
-      posts = raw ? JSON.parse(raw) : DEFAULT_POSTS.slice();
-    } catch(e) {
-      console.error('load', e);
-      posts = DEFAULT_POSTS.slice();
-    }
-    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+function safeLoad(){
+  try {
+    const raw = localStorage.getItem('blogPosts');
+    posts = raw ? JSON.parse(raw) : DEFAULT_POSTS.slice();
+  } catch(e) {
+    console.error('load', e); posts = DEFAULT_POSTS.slice();
   }
-  function savePosts(){ try { localStorage.setItem('blogPosts', JSON.stringify(posts)); } catch(e){ console.error('save', e); } }
-  function slugify(s){ return String(s).toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'').replace(/\-+/g,'-'); }
+  isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+}
+function savePosts(){ try { localStorage.setItem('blogPosts', JSON.stringify(posts)); } catch(e){ console.error('save', e); } }
+function slugify(s){ return String(s).toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'').replace(/\-+/g,'-'); }
 
-  // Lightweight Markdown -> HTML
-  function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function mdToHtml(md){
-    if(!md) return '';
-    let text = md.replace(/\r/g,'');
-    text = text.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${escapeHtml(code)}</code></pre>`);
-    text = text.replace(/!\[(.*?)\]\((.*?)\)/g, '<img alt="$1" src="$2">');
-    text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-    text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-    text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-    text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-
-    const lines = text.split('\n');
-    let out = []; let inList = false;
-    for(let i=0;i<lines.length;i++){
-      const line = lines[i];
-      const m = line.match(/^\s*([-\*])\s+(.*)/);
-      if(m){
-        if(!inList){ out.push('<ul>'); inList = true; }
-        out.push('<li>'+m[2]+'</li>');
-      } else {
-        if(inList){ out.push('</ul>'); inList = false; }
-        out.push(line);
-      }
-    }
-    if(inList) out.push('</ul>');
-    text = out.join('\n');
-
-    const parts = text.split(/\n{2,}/).map(p=>p.trim()).filter(Boolean);
-    return parts.map(p => {
-      if(p.startsWith('<h')||p.startsWith('<ul')||p.startsWith('<pre')||p.startsWith('<img')) return p;
-      return '<p>'+p+'</p>';
-    }).join('\n');
-  }
-
-  function isNew(dateStr, days=7){
-    if(!dateStr) return false;
-    const t = Date.parse(dateStr);
-    if(isNaN(t)) return false;
-    return (Date.now() - t) <= days * 24 * 60 * 60 * 1000;
-  }
-
-  // ---------- RENDERERS ----------
-  function renderHome(){
-    const main = byId('main'); main.innerHTML = '';
-    // hero
-    if(posts.length){
-      const heroTpl = byId('hero-tpl').content.firstElementChild.cloneNode(true);
-      const featured = posts[0];
-      heroTpl.querySelector('.hero-title').textContent = featured.title;
-      heroTpl.querySelector('.hero-sub').textContent = featured.excerpt || '';
-      heroTpl.querySelector('.hero-water').textContent = (featured.watermark || featured.title || '').toUpperCase();
-      if(featured.image) heroTpl.querySelector('.hero-center').style.backgroundImage = `url(${featured.image})`;
-      heroTpl.addEventListener('click', ()=> location.hash = 'post-'+featured.id);
-      main.appendChild(heroTpl);
-    }
-
-    // tiles
-    const tilesWrap = byId('tiles-tpl').content.firstElementChild.cloneNode(true);
-    const tiles = tilesWrap.querySelector('.tiles');
-    const tpl = byId('tile-tpl');
-    posts.slice(1).forEach(p => {
-      const node = tpl.content.firstElementChild.cloneNode(true);
-      node.querySelector('.title').textContent = p.title;
-      node.querySelector('.meta-text').textContent = (p.tags && p.tags.length ? p.tags.join(' • ') + ' • ' + p.date : p.date);
-      if(p.image) node.querySelector('.bg').style.backgroundImage = `url(${p.image})`;
-      if(isNew(p.date, 7)){
-        const b = document.createElement('div'); b.className = 'new-badge'; b.textContent = 'NEW'; node.appendChild(b);
-      }
-      node.addEventListener('click', ()=> location.hash = 'post-'+p.id);
-      tiles.appendChild(node);
-    });
-    main.appendChild(tilesWrap);
-  }
-
-  function renderPost(id){
-    const p = posts.find(x=>x.id===id);
-    if(!p){ renderHome(); return; }
-    const tpl = byId('post-tpl').content.firstElementChild.cloneNode(true);
-    tpl.querySelector('#post-title').textContent = p.title;
-    tpl.querySelector('#post-meta').textContent = p.date + (p.tags && p.tags.length ? ' • ' + p.tags.join(', ') : '');
-    if(p.image) tpl.querySelector('#post-cover').style.backgroundImage = `url(${p.image})`;
-    tpl.querySelector('#post-content').innerHTML = mdToHtml(p.content || '');
-
-    // admin-only actions (edit/delete)
-    const actions = tpl.querySelector('#post-actions');
-    actions.innerHTML = '';
-    if(isLoggedIn){
-      const edit = document.createElement('button'); edit.className = 'btn-ghost'; edit.textContent = 'Edit';
-      edit.onclick = ()=> { renderAdmin(); setTimeout(()=> loadIntoForm(p.id), 120); };
-      const del = document.createElement('button'); del.className = 'btn-mag'; del.textContent = 'Delete';
-      del.onclick = ()=> {
-        if(confirm('Delete this post?')) {
-          posts = posts.filter(x=>x.id!==p.id); savePosts(); location.hash = 'home';
+/* ---------- IMAGE READ + RESIZE ---------- */
+function readImageFileAsJpegDataURL(file, maxW = 1600, maxH = 900, quality = 0.85){
+  return new Promise((resolve, reject) => {
+    if(!file) return resolve('');
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const img = new Image();
+      img.onload = function(){
+        // compute size
+        let w = img.width, h = img.height;
+        const ratio = w / h;
+        if(w > maxW){
+          w = maxW;
+          h = Math.round(maxW / ratio);
+        }
+        if(h > maxH){
+          h = maxH;
+          w = Math.round(maxH * ratio);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        // draw white background to avoid PNG transparency artifacts when saving to JPEG
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0,0,w,h);
+        ctx.drawImage(img, 0, 0, w, h);
+        try {
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(dataUrl);
+        } catch(err){
+          // fallback: return original data URL (possibly PNG)
+          resolve(e.target.result);
         }
       };
-      actions.appendChild(edit); actions.appendChild(del);
-    }
-
-    byId('main').innerHTML = ''; byId('main').appendChild(tpl);
-    window.scrollTo(0,0);
-  }
-
-  function renderAbout(){
-    const template = document.createElement('section');
-    template.className = 'post';
-    template.innerHTML = `<h2>About</h2><p class="muted">This is a single-file Markdown blog with admin controls. Use Admin to create/edit/delete posts. For permanent/public changes, edit DEFAULT_POSTS in the file and deploy to GitHub Pages.</p>`;
-    byId('main').innerHTML = ''; byId('main').appendChild(template);
-  }
-
-  function renderAdmin(){
-    const main = byId('main'); main.innerHTML = '';
-    if(!isLoggedIn){
-      const login = byId('login-tpl').content.firstElementChild.cloneNode(true);
-      main.appendChild(login);
-      byId('login-go').onclick = ()=> {
-        const val = byId('login-pass').value || '';
-        if(val === ADMIN_PASS){
-          isLoggedIn = true; localStorage.setItem('isLoggedIn','true'); updateUI(); renderAdmin();
-        } else alert('Incorrect password');
-      };
-      byId('login-cancel').onclick = ()=> location.hash = 'home';
-      return;
-    }
-
-    const admin = byId('admin-tpl').content.firstElementChild.cloneNode(true);
-    main.appendChild(admin);
-
-    // populate list
-    const list = byId('admin-list');
-    list.innerHTML = '';
-    posts.forEach((p, idx) => {
-      const item = document.createElement('div'); item.className = 'post-item';
-      const left = document.createElement('div'); left.className = 'left';
-      left.innerHTML = `<div style="font-weight:700">${p.title}</div><div class="muted small">${p.date} • ${p.tags ? p.tags.join(', ') : ''}</div>`;
-      const controls = document.createElement('div'); controls.className = 'controls';
-      const feat = document.createElement('button'); feat.className='btn-ghost'; feat.textContent='Feature';
-      feat.onclick = ()=> { posts.splice(idx,1); posts.unshift(p); savePosts(); renderAdmin(); };
-      const edit = document.createElement('button'); edit.className='btn-ghost'; edit.textContent='Edit';
-      edit.onclick = ()=> { loadIntoForm(p.id); };
-      const del = document.createElement('button'); del.className='btn-mag'; del.textContent='Delete';
-      del.onclick = ()=> { if(confirm('Delete?')){ posts = posts.filter(x=>x.id!==p.id); savePosts(); renderAdmin(); location.hash='home'; } };
-      controls.appendChild(feat); controls.appendChild(edit); controls.appendChild(del);
-      item.appendChild(left); item.appendChild(controls);
-      list.appendChild(item);
-    });
-
-    // form handlers
-    byId('save-btn').onclick = adminSave;
-    byId('clear-btn').onclick = ()=> {
-      byId('edit-id').value=''; byId('admin-title').value=''; byId('admin-tags').value=''; byId('admin-image').value=''; byId('admin-content').value='';
-      byId('admin-form-title').textContent = 'Create / Edit Post';
+      img.onerror = ()=> resolve(e.target.result); // fallback to raw data url
+      img.src = e.target.result;
     };
-    byId('logout-btn').onclick = ()=> {
-      if(confirm('Logout?')){ isLoggedIn = false; localStorage.setItem('isLoggedIn','false'); updateUI(); location.hash='home'; }
-    };
-
-    // export/import
-    byId('export-btn').onclick = ()=> {
-      const data = JSON.stringify(posts, null, 2);
-      const blob = new Blob([data], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'emmiti-posts.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    };
-    byId('import-btn').onclick = ()=> {
-      const inp = document.createElement('input'); inp.type='file'; inp.accept='.json,application/json';
-      inp.onchange = (e)=> {
-        const f = e.target.files[0]; if(!f) return;
-        const reader = new FileReader(); reader.onload = ()=> {
-          try {
-            const data = JSON.parse(reader.result);
-            if(!Array.isArray(data)) throw new Error('Invalid JSON (expected array).');
-            posts = data; savePosts(); alert('Imported posts'); renderAdmin();
-          } catch(err){ alert('Import failed: '+err.message); }
-        }; reader.readAsText(f);
-      };
-      inp.click();
-    };
-  }
-
-  // Load post data into admin form for editing
-  function loadIntoForm(id){
-    const p = posts.find(x=>x.id===id); if(!p){ alert('Post not found'); return; }
-    byId('edit-id').value = p.id;
-    byId('admin-title').value = p.title || '';
-    byId('admin-tags').value = (p.tags||[]).join(', ');
-    byId('admin-image').value = p.image || '';
-    byId('admin-content').value = p.content || '';
-    byId('admin-form-title').textContent = 'Edit Post';
-    location.hash = 'admin';
-    setTimeout(()=> window.scrollTo({top:0,behavior:'smooth'}), 80);
-  }
-
-  function adminSave(){
-    const editId = byId('edit-id').value.trim();
-    const title = byId('admin-title').value.trim();
-    if(!title){ alert('Title required'); return; }
-    const tags = (byId('admin-tags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
-    const image = byId('admin-image').value.trim();
-    const content = byId('admin-content').value.trim();
-    const dateStr = new Date().toISOString().split('T')[0];
-
-    if(editId){
-      const idx = posts.findIndex(x=>x.id===editId);
-      if(idx === -1){ alert('Post not found'); return; }
-      posts[idx].title = title;
-      posts[idx].tags = tags;
-      posts[idx].image = image;
-      posts[idx].content = content;
-      savePosts();
-      alert('Post updated');
-      renderAdmin();
-    } else {
-      const id = slugify(title) || Date.now().toString();
-      const newPost = { id, title, watermark: title.replace(/\s+/g,''), date: dateStr, excerpt: content.substring(0,140)+'...', tags, image, content };
-      if(posts.length === 0) posts.unshift(newPost);
-      else posts.splice(1,0,newPost);
-      savePosts();
-      alert('Post created');
-      renderAdmin();
-    }
-  }
-
-  // Router
-  function router(){
-    const hash = (location.hash || '#home').replace(/^#/,'');
-    if(!hash || hash === 'home'){ renderHome(); return; }
-    if(hash === 'about'){ renderAbout(); return; }
-    if(hash === 'admin'){ renderAdmin(); return; }
-    if(hash === 'create-post'){ if(!isLoggedIn){ location.hash='admin'; return; } renderAdmin(); byId('edit-id').value=''; byId('admin-title').value=''; byId('admin-tags').value=''; byId('admin-image').value=''; byId('admin-content').value=''; return; }
-    if(hash.startsWith('post-')){ renderPost(hash.replace('post-','')); return; }
-    renderHome();
-  }
-
-  // Update UI bits
-  function updateUI(){
-    const create = byId('create-post-btn'); if(create) create.style.display = isLoggedIn? 'inline-block':'none';
-  }
-
-  // Init
-  window.addEventListener('hashchange', router);
-  window.addEventListener('load', ()=>{
-    safeLoad(); updateUI();
-    const twitter = byId('twitter'); if(twitter) twitter.href = 'https://twitter.com/yourhandle';
-    const createBtn = byId('create-post-btn'); if(createBtn) createBtn.addEventListener('click', e=>{ e.preventDefault(); location.hash='create-post'; });
-    router();
+    reader.onerror = ()=> reject(new Error('Failed reading file'));
+    reader.readAsDataURL(file);
   });
-  </script>
+}
+
+/* ---------- MARKDOWN RENDERER ---------- */
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function mdToHtml(md){
+  if(!md) return '';
+  let text = md.replace(/\r/g,'');
+  text = text.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${escapeHtml(code)}</code></pre>`);
+  text = text.replace(/!\[(.*?)\]\((.*?)\)/g, '<img alt="$1" src="$2">');
+  text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+  text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+  text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+  text = text.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  
+  const lines = text.split('\n');
+  let out = []; let inList = false;
+  for(let i=0;i<lines.length;i++){
+    const line = lines[i];
+    const m = line.match(/^\s*([-\*])\s+(.*)/);
+    if(m){
+      if(!inList){ out.push('<ul>'); inList = true; }
+      out.push('<li>'+m[2]+'</li>');
+    } else {
+      if(inList){ out.push('</ul>'); inList = false; }
+      out.push(line);
+    }
+  }
+  if(inList) out.push('</ul>');
+  text = out.join('\n');
+
+  const parts = text.split(/\n{2,}/).map(p=>p.trim()).filter(Boolean);
+  return parts.map(p => {
+    if(p.startsWith('<h')||p.startsWith('<ul')||p.startsWith('<pre')||p.startsWith('<img')||p.startsWith('<span')) return p;
+    return '<p>'+p+'</p>';
+  }).join('\n');
+}
+
+function isNew(dateStr, days=7){
+  if(!dateStr) return false;
+  const t = Date.parse(dateStr);
+  if(isNaN(t)) return false;
+  return (Date.now() - t) <= days * 24 * 60 * 60 * 1000;
+}
+
+/* ---------- PASTE HANDLING: improved for Word HTML; preserves paragraphs, bold, italic ---------- */
+function htmlToMarkdownSimple(html){
+  if(!html) return '';
+  html = html.replace(/<o:p>\s*<\/o:p>/g, '')
+             .replace(/<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '')
+             .replace(/\s*mso-[^:;]+:[^;"]+;?/gi, '');
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(`<div id="wrapper">${html}</div>`, 'text/html');
+  const wrapper = doc.getElementById('wrapper');
+
+  function nodeToMarkdown(node){
+    if(node.nodeType === Node.TEXT_NODE){
+      return node.nodeValue.replace(/\u00A0/g,' ').replace(/\s+/g, ' ');
+    }
+    const tag = node.tagName ? node.tagName.toLowerCase() : '';
+    const style = node.getAttribute && node.getAttribute('style') ? node.getAttribute('style').toLowerCase() : '';
+
+    if(tag === 'br') return '\n';
+    if(tag === 'p' || tag === 'div'){
+      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('');
+      return inner.trim() + '\n\n';
+    }
+    if(tag === 'strong' || tag === 'b'){
+      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
+      if(!inner) return '';
+      return ' ' + `**${inner}**` + ' ';
+    }
+    if(tag === 'em' || tag === 'i'){
+      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
+      if(!inner) return '';
+      return ' ' + `*${inner}*` + ' ';
+    }
+    if(tag === 'span' && style){
+      const isItalic = /font-style\s*:\s*italic/.test(style);
+      const isBold = /font-weight\s*:\s*(bold|700|800|900)/.test(style);
+      const content = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
+      if(!content) return '';
+      if(isBold && isItalic) return ' ' + `***${content}***` + ' ';
+      if(isBold) return ' ' + `**${content}**` + ' ';
+      if(isItalic) return ' ' + `*${content}*` + ' ';
+      return ' ' + content + ' ';
+    }
+    if(tag === 'h1' || tag === 'h2' || tag === 'h3'){
+      const level = parseInt(tag.replace('h',''),10);
+      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
+      return '\n' + '#'.repeat(level) + ' ' + inner + '\n\n';
+    }
+    if(tag === 'ul' || tag === 'ol'){
+      const items = Array.from(node.children).map((li, idx) => {
+        const content = Array.from(li.childNodes).map(nodeToMarkdown).join('').trim();
+        if(tag === 'ul') return `- ${content}`;
+        return `${idx+1}. ${content}`;
+      }).join('\n');
+      return items + '\n\n';
+    }
+    if(tag === 'li'){
+      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
+      return `- ${inner}\n`;
+    }
+    if(tag === 'a'){
+      const href = node.getAttribute('href') || '';
+      const inner = Array.from(node.childNodes).map(nodeToMarkdown).join('').trim();
+      if(href) return ` [${inner}](${href}) `;
+      return ' ' + inner + ' ';
+    }
+    if(tag === 'img'){
+      const alt = node.getAttribute('alt') || '';
+      const src = node.getAttribute('src') || '';
+      return ` ![${alt}](${src}) `;
+    }
+    return Array.from(node.childNodes).map(nodeToMarkdown).join('');
+  }
+
+  let out = Array.from(wrapper.childNodes).map(nodeToMarkdown).join('');
+  out = out.replace(/\s+/g, ' ').replace(/\s+([.,;:!?])/g, '$1').replace(/\n{3,}/g, '\n\n').trim();
+  return out;
+}
+
+function handlePasteToTextarea(e){
+  const ta = e.target;
+  const clipboard = e.clipboardData || window.clipboardData;
+  if(!clipboard) return;
+  const html = clipboard.getData('text/html');
+  if(html){
+    e.preventDefault();
+    const md = htmlToMarkdownSimple(html);
+    const start = ta.selectionStart || 0;
+    const end = ta.selectionEnd || 0;
+    const before = ta.value.slice(0, start);
+    const after = ta.value.slice(end);
+    ta.value = before + md + after;
+    const pos = before.length + md.length;
+    ta.selectionStart = ta.selectionEnd = pos;
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+    return false;
+  }
+}
+
+/* ---------- RENDERERS ---------- */
+function applyFontChoiceToPostElements(el, fontChoice){
+  const titleEl = el.querySelector('#post-title');
+  const metaEl = el.querySelector('#post-meta');
+  const contentEl = el.querySelector('#post-content');
+
+  titleEl.className = '';
+  metaEl.className = 'meta';
+  contentEl.className = '';
+
+  if(!fontChoice || fontChoice === 'default'){
+    titleEl.classList.add('font-title-space');
+    metaEl.classList.add('font-tags-mont');
+    contentEl.classList.add('md-font-1');
+    return;
+  }
+  if(fontChoice === 'fontA'){
+    titleEl.classList.add('font-title-space');
+    metaEl.classList.add('font-tags-mont');
+    contentEl.classList.add('md-font-1');
+  } else if(fontChoice === 'fontB'){
+    titleEl.classList.add('font-title-merri');
+    metaEl.classList.add('font-tags-mont');
+    contentEl.classList.add('md-font-2');
+  } else if(fontChoice === 'fontC'){
+    titleEl.classList.add('font-title-inter');
+    metaEl.classList.add('font-tags-mono');
+    contentEl.classList.add('md-font-3');
+  } else {
+    titleEl.classList.add('font-title-space');
+    metaEl.classList.add('font-tags-mont');
+    contentEl.classList.add('md-font-1');
+  }
+}
+
+function renderHome(){
+  const main = byId('main'); main.innerHTML = '';
+  if(posts.length){
+    const heroTpl = byId('hero-tpl').content.firstElementChild.cloneNode(true);
+    const featured = posts[0];
+    heroTpl.querySelector('.hero-title').textContent = featured.title;
+    heroTpl.querySelector('.hero-sub').textContent = featured.excerpt || '';
+    heroTpl.querySelector('.hero-water').textContent = (featured.watermark || featured.title || '').toUpperCase();
+    if(featured.image) {
+      heroTpl.querySelector('.hero-center').style.setProperty('--bg-image', `url(${featured.image})`);
+    } else {
+      heroTpl.querySelector('.hero-center').style.removeProperty('--bg-image');
+    }
+    heroTpl.addEventListener('click', ()=> location.hash = 'post-'+featured.id);
+    main.appendChild(heroTpl);
+  }
+
+  const tilesWrap = byId('tiles-tpl').content.firstElementChild.cloneNode(true);
+  const tiles = tilesWrap.querySelector('.tiles');
+  const tpl = byId('tile-tpl');
+  posts.slice(1).forEach(p => {
+    const node = tpl.content.firstElementChild.cloneNode(true);
+    node.querySelector('.title').textContent = p.title;
+    node.querySelector('.meta-text').textContent = (p.tags && p.tags.length ? p.tags.join(' • ') + ' • ' + p.date : p.date);
+    if(p.image) node.querySelector('.bg').style.backgroundImage = `url(${p.image})`;
+    if(isNew(p.date, 7)){
+      const b = document.createElement('div'); b.className = 'new-badge'; b.textContent = 'NEW'; node.appendChild(b);
+    }
+    node.addEventListener('click', ()=> location.hash = 'post-'+p.id);
+    tiles.appendChild(node);
+  });
+  main.appendChild(tilesWrap);
+}
+
+function renderPost(id){
+  const p = posts.find(x=>x.id===id);
+  if(!p){ renderHome(); return; }
+  const tpl = byId('post-tpl').content.firstElementChild.cloneNode(true);
+  tpl.querySelector('#post-title').textContent = p.title;
+  tpl.querySelector('#post-meta').textContent = p.date + (p.tags && p.tags.length ? ' • ' + p.tags.join(', ') : '');
+  // set CSS variable for blurred background (so blur filter is always applied)
+  const postCover = tpl.querySelector('#post-cover');
+  if(p.image && postCover){
+    postCover.style.setProperty('--post-bg-image', `url(${p.image})`);
+  } else if(postCover){
+    postCover.style.removeProperty('--post-bg-image');
+  }
+
+  tpl.querySelector('#post-content').innerHTML = mdToHtml(p.content || '');
+
+  applyFontChoiceToPostElements(tpl, p.fontChoice);
+
+  const actions = tpl.querySelector('#post-actions');
+  actions.innerHTML = '';
+  if(isLoggedIn){
+    const edit = document.createElement('button'); edit.className = 'btn-ghost'; edit.textContent = 'Edit';
+    edit.onclick = ()=> { renderAdmin(); setTimeout(()=> loadIntoForm(p.id), 120); };
+    const del = document.createElement('button'); del.className = 'btn-mag'; del.textContent = 'Delete';
+    del.onclick = ()=> {
+      if(confirm('Delete this post?')) {
+        posts = posts.filter(x=>x.id!==p.id); savePosts(); location.hash = 'home';
+      }
+    };
+    actions.appendChild(edit); actions.appendChild(del);
+  }
+
+  byId('main').innerHTML = ''; byId('main').appendChild(tpl);
+  window.scrollTo(0,0);
+}
+
+function renderAbout(){
+  const template = document.createElement('section');
+  template.className = 'post';
+  template.innerHTML = `<h2>About</h2><p class="muted">I am not here to fit into your comfort, nor to overturn it. I dwell in fear, in doubt, in suffering, in the abyss that stares back and so do you, though your denial serves the greater mystery. My joy is not in happiness but in intensity. To converse with me is to risk not comfort but confrontation, and perhaps to find the courage you never knew you carried. I write as I live close to the bone, tracing the raw and naked details of people, of films, of fleeting moments that cut deeper than appearances.</p>`;
+  byId('main').innerHTML = ''; byId('main').appendChild(template);
+}
+
+/* ---------- ADMIN ---------- */
+function updateFontPreview(){
+  const sel = byId('admin-font');
+  const sample = byId('font-preview-sample');
+  if(!sel || !sample) return;
+  const v = sel.value;
+  if(v === 'fontA') sample.style.fontFamily = "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+  else if(v === 'fontB') sample.style.fontFamily = "'Merriweather', Georgia, serif";
+  else if(v === 'fontC') sample.style.fontFamily = "'Space Grotesk', system-ui, sans-serif";
+  else sample.style.fontFamily = "'Space Grotesk', system-ui, sans-serif";
+}
+
+function showAdminImagePreview(dataUrl){
+  const wrap = byId('admin-image-preview-wrap');
+  const img = byId('admin-image-preview');
+  if(!wrap || !img) return;
+  if(dataUrl){
+    img.src = dataUrl;
+    img.setAttribute('data-src', dataUrl);
+    wrap.style.display = 'flex';
+  } else {
+    img.src = '';
+    img.removeAttribute('data-src');
+    wrap.style.display = 'none';
+  }
+}
+
+function loadIntoForm(id){
+  const p = posts.find(x=>x.id===id); if(!p){ alert('Post not found'); return; }
+  byId('edit-id').value = p.id;
+  byId('admin-title').value = p.title || '';
+  byId('admin-excerpt').value = p.excerpt || '';
+  byId('admin-tags').value = (p.tags||[]).join(', ');
+  // show existing image if present
+  showAdminImagePreview(p.image || '');
+  // clear file input to avoid accidental overwrite
+  const fileInput = byId('admin-image-file');
+  if(fileInput) fileInput.value = '';
+  byId('admin-content').value = p.content || '';
+  byId('admin-font').value = p.fontChoice || 'default';
+  byId('admin-form-title').textContent = 'Edit Post';
+  updateFontPreview();
+  location.hash = 'admin';
+  setTimeout(()=> window.scrollTo({top:0,behavior:'smooth'}), 80);
+  setTimeout(()=> {
+    const ta = byId('admin-content'); const live = byId('live-preview');
+    if(ta && live) live.innerHTML = mdToHtml(ta.value || '');
+  }, 120);
+}
+
+async function adminSave(){
+  const editId = byId('edit-id').value.trim();
+  const title = byId('admin-title').value.trim();
+  if(!title){ alert('Title required'); return; }
+  const excerpt = byId('admin-excerpt').value.trim();
+  const tags = (byId('admin-tags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const imageFile = byId('admin-image-file') ? byId('admin-image-file').files[0] : null;
+  let image = ''; // will hold Data URL or existing
+  // If user uploaded a new file, convert/resample to JPEG data URL
+  if(imageFile){
+    try {
+      image = await readImageFileAsJpegDataURL(imageFile);
+    } catch(err){
+      console.error('image read error', err);
+      alert('Failed to read image — using existing or none.');
+      image = (byId('admin-image-preview') && byId('admin-image-preview').getAttribute('data-src')) || '';
+    }
+  } else {
+    // no new file chosen: keep existing preview image if present
+    image = (byId('admin-image-preview') && byId('admin-image-preview').getAttribute('data-src')) || '';
+  }
+
+  const content = byId('admin-content').value.trim();
+  const fontChoice = byId('admin-font').value || 'default';
+  const dateStr = new Date().toISOString().split('T')[0];
+
+  if(editId){
+    const idx = posts.findIndex(x=>x.id===editId);
+    if(idx === -1){ alert('Post not found'); return; }
+    posts[idx].title = title;
+    posts[idx].excerpt = excerpt;
+    posts[idx].tags = tags;
+    posts[idx].image = image;
+    posts[idx].content = content;
+    posts[idx].fontChoice = fontChoice;
+    savePosts();
+    alert('Post updated');
+    renderAdmin();
+  } else {
+    const id = slugify(title) || Date.now().toString();
+    const newPost = { id, title, watermark: title.replace(/\s+/g,''), date: dateStr, excerpt, tags, image, content, fontChoice };
+    if(posts.length === 0) posts.unshift(newPost);
+    else posts.splice(1,0,newPost);
+    savePosts();
+    alert('Post created');
+    renderAdmin();
+  }
+}
+
+/* ---------- SUGGESTION: auto-submit to Formsubmit.co with fallback ---------- */
+async function submitSuggestionAjax(e){
+  e.preventDefault();
+  const ta = byId('s-text') || byId('s-text-modal');
+  const status = byId('suggest-status') || byId('suggest-status-modal');
+  if(!ta) return false;
+  const text = (ta.value || '').trim();
+  if(!text){ status.textContent = 'Write something first.'; return false; }
+
+  status.style.color = ''; status.textContent = 'Sending…';
+  const endpoint = 'https://formsubmit.co/ajax/helloemmiti@gmail.com';
+  const payload = {
+    message: text,
+    _subject: 'Emmiti suggestion',
+    _captcha: 'false'
+  };
+
+  try{
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    if(res.ok && json.success !== false){
+      status.style.color = ''; status.textContent = 'Sent — thanks!';
+      ta.value = '';
+      setTimeout(()=> status.textContent = '', 2500);
+      // close modal after send
+      setTimeout(()=> closeSuggestModal(), 900);
+    } else {
+      throw new Error((json.message || 'Send failed'));
+    }
+  }catch(err){
+    console.error('Suggest send', err);
+    status.style.color = '#ffb3b3';
+    status.textContent = 'Send failed — opening mail client as fallback.';
+    const body = encodeURIComponent(`Suggestion from site\n\n---\n${text}`);
+    const subject = encodeURIComponent('Emmiti site suggestion');
+    setTimeout(()=> { window.location.href = `mailto:${SUGGESTION_EMAIL}?subject=${subject}&body=${body}`; }, 800);
+  }
+  return false;
+}
+
+/* ---------- SUGGESTION MODAL HANDLERS ---------- */
+function openSuggestModal(){
+  const overlay = byId('suggest-modal');
+  if(!overlay) return;
+  overlay.style.display = 'flex';
+  overlay.setAttribute('aria-hidden','false');
+  const ta = byId('s-text'); if(ta){ ta.focus(); }
+}
+function closeSuggestModal(){
+  const overlay = byId('suggest-modal');
+  if(!overlay) return;
+  overlay.style.display = 'none';
+  overlay.setAttribute('aria-hidden','true');
+  const status = byId('suggest-status'); if(status) status.textContent = '';
+}
+
+/* ---------- RENDER ADMIN + BINDINGS ---------- */
+function renderAdmin(){
+  const main = byId('main'); main.innerHTML = '';
+  if(!isLoggedIn){
+    const login = byId('login-tpl').content.firstElementChild.cloneNode(true);
+    main.appendChild(login);
+    byId('login-go').onclick = ()=> {
+      const val = byId('login-pass').value || '';
+      if(val === ADMIN_PASS){
+        isLoggedIn = true; localStorage.setItem('isLoggedIn','true'); updateUI(); renderAdmin();
+      } else alert('Incorrect password');
+    };
+    byId('login-cancel').onclick = ()=> location.hash = 'home';
+    return;
+  }
+
+  const admin = byId('admin-tpl').content.firstElementChild.cloneNode(true);
+  main.appendChild(admin);
+
+  const list = byId('admin-list');
+  list.innerHTML = '';
+  posts.forEach((p, idx) => {
+    const item = document.createElement('div'); item.className = 'post-item';
+    const left = document.createElement('div'); left.className = 'left';
+    left.innerHTML = `<div style="font-weight:700">${p.title}</div><div class="muted small">${p.date} • ${p.tags ? p.tags.join(', ') : ''}</div>`;
+    const controls = document.createElement('div'); controls.className = 'controls';
+    const feat = document.createElement('button'); feat.className='btn-ghost'; feat.textContent='Feature';
+    feat.onclick = ()=> { posts.splice(idx,1); posts.unshift(p); savePosts(); renderAdmin(); };
+    const edit = document.createElement('button'); edit.className='btn-ghost'; edit.textContent='Edit';
+    edit.onclick = ()=> { loadIntoForm(p.id); };
+    const del = document.createElement('button'); del.className='btn-mag'; del.textContent='Delete';
+    del.onclick = ()=> { if(confirm('Delete?')){ posts = posts.filter(x=>x.id!==p.id); savePosts(); renderAdmin(); location.hash='home'; } };
+    controls.appendChild(feat); controls.appendChild(edit); controls.appendChild(del);
+    item.appendChild(left); item.appendChild(controls);
+    list.appendChild(item);
+  });
+
+  // bindings
+  byId('save-btn').onclick = ()=> adminSave();
+  byId('clear-btn').onclick = ()=> {
+    byId('edit-id').value=''; byId('admin-title').value=''; byId('admin-excerpt').value=''; byId('admin-tags').value=''; byId('admin-content').value=''; byId('admin-font').value='default';
+    byId('admin-form-title').textContent = 'Create / Edit Post';
+    updateFontPreview();
+    showAdminImagePreview('');
+    const fileInput = byId('admin-image-file'); if(fileInput) fileInput.value = '';
+    const live = byId('live-preview'); if(live) live.innerHTML = '';
+  };
+  byId('logout-btn').onclick = ()=> {
+    if(confirm('Logout?')){ isLoggedIn = false; localStorage.setItem('isLoggedIn','false'); updateUI(); location.hash='home'; }
+  };
+
+  byId('export-btn').onclick = ()=> {
+    const data = JSON.stringify(posts, null, 2);
+    const blob = new Blob([data], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'emmiti-posts.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  };
+  byId('import-btn').onclick = ()=> {
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept='.json,application/json';
+    inp.onchange = (e)=> {
+      const f = e.target.files[0]; if(!f) return;
+      const reader = new FileReader(); reader.onload = ()=> {
+        try {
+          const data = JSON.parse(reader.result);
+          if(!Array.isArray(data)) throw new Error('Invalid JSON (expected array).');
+          posts = data; savePosts(); alert('Imported posts'); renderAdmin();
+        } catch(err){ alert('Import failed: '+err.message); }
+      }; reader.readAsText(f);
+    };
+    inp.click();
+  };
+
+  const adminContentTa = byId('admin-content');
+  if(adminContentTa){
+    adminContentTa.addEventListener('paste', handlePasteToTextarea);
+    const live = byId('live-preview');
+    const updatePreview = ()=> {
+      if(!live) return;
+      live.innerHTML = mdToHtml(adminContentTa.value || '');
+    };
+    adminContentTa.addEventListener('input', updatePreview);
+    updatePreview();
+  }
+
+  // image upload preview + remove
+  const fileInput = byId('admin-image-file');
+  if(fileInput){
+    fileInput.addEventListener('change', async (ev)=>{
+      const f = ev.target.files[0];
+      if(!f){ showAdminImagePreview(''); return; }
+      // create a temporary preview (scale down using canvas)
+      try{
+        const preview = await readImageFileAsJpegDataURL(f, 600, 400, 0.8);
+        showAdminImagePreview(preview);
+      }catch(err){
+        console.error('preview error', err);
+        // fallback to raw preview
+        const r = new FileReader();
+        r.onload = ()=> showAdminImagePreview(r.result);
+        r.readAsDataURL(f);
+      }
+    });
+  }
+  const removeBtn = byId('remove-image-btn');
+  if(removeBtn){
+    removeBtn.onclick = ()=>{
+      showAdminImagePreview('');
+      const fi = byId('admin-image-file'); if(fi) fi.value = '';
+    };
+  }
+
+  byId('admin-font').onchange = updateFontPreview;
+  updateFontPreview();
+}
+
+/* ---------- ROUTER ---------- */
+function router(){
+  const hash = (location.hash || '#home').replace(/^#/,'');
+  if(!hash || hash === 'home'){ renderHome(); return; }
+  if(hash === 'about'){ renderAbout(); return; }
+  if(hash === 'admin'){ renderAdmin(); return; }
+  if(hash === 'create-post'){ if(!isLoggedIn){ location.hash='admin'; return; } renderAdmin(); byId('edit-id').value=''; byId('admin-title').value=''; byId('admin-tags').value=''; byId('admin-image-file').value=''; byId('admin-content').value=''; return; }
+  if(hash.startsWith('post-')){ renderPost(hash.replace('post-','')); return; }
+  renderHome();
+}
+
+function updateUI(){
+  const create = byId('create-post-btn'); if(create) create.style.display = isLoggedIn? 'inline-block':'none';
+}
+
+/* ---------- INIT ---------- */
+window.addEventListener('hashchange', router);
+window.addEventListener('load', ()=>{
+  safeLoad(); updateUI();
+  const twitter = byId('twitter'); if(twitter) twitter.href = 'https://twitter.com/askmewhywhat';
+  const createBtn = byId('create-post-btn'); if(createBtn) createBtn.addEventListener('click', e=>{ e.preventDefault(); location.hash='create-post'; });
+  // suggestion modal bindings
+  const openBtn = byId('open-suggest-btn');
+  if(openBtn) openBtn.addEventListener('click', openSuggestModal);
+  const closeBtn = byId('close-suggest');
+  if(closeBtn) closeBtn.addEventListener('click', closeSuggestModal);
+  const overlay = byId('suggest-modal');
+  if(overlay) overlay.addEventListener('click', (ev)=> { if(ev.target === overlay) closeSuggestModal(); });
+  router();
+});
+</script>
 </body>
 </html>
