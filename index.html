@@ -187,7 +187,8 @@
     <div style="display:flex;justify-content:center;">
       <div class="suggest-card centered-suggest" role="region" aria-label="Suggestion box" style="max-width:880px;width:100%;padding:14px;margin-top:12px">
         <form id="suggest-form" class="suggest-form" onsubmit="return submitSuggestionAjax(event)" autocomplete="off" style="display:flex;flex-direction:column;gap:8px;width:100%">
-          <label class="small" for="s-text" style="display:block;margin-bottom:2px;font-weight:700;text-align:left">Send a suggestion</label>
+          <label class="small" for="s-text" style="display:block;margin-bottom:2px;font-weight:700;text-align:left">Hit me with your ideas, fling your critiques, or summon the post you crave.
+</label>
           <textarea id="s-text" name="message" placeholder="Short idea, comment or a link..." required></textarea>
           <div style="display:flex;justify-content:flex-end;align-items:center">
             <div id="suggest-status" class="suggest-status" style="margin-right:auto"></div>
@@ -202,8 +203,7 @@
     </div>
   </footer>
 
-  <!-- floating suggestion button -->
-  <button class="suggest-float-btn" id="open-suggest-btn" aria-haspopup="dialog" aria-controls="suggest-modal">Suggest</button>
+ 
 
   <!-- suggestion modal (hidden by default) -->
   <div class="suggest-modal-overlay" id="suggest-modal" role="dialog" aria-modal="true" aria-hidden="true">
