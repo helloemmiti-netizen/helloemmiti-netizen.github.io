@@ -351,20 +351,26 @@ async function fetchRemotePosts(){
     return data || [];
   } catch(err){ console.error('fetchRemotePosts', err); return null; }
 }
-async function saveRemotePost(post){
-  try{
-    const { data, error } = await supabaseClient.from('posts').upsert(post, { onConflict:['id'] });
-    if(error){ console.error('supabase upsert error', error); return { ok:false, error }; }
-    return { ok:true, data };
-  }catch(err){ console.error('saveRemotePost error', err); return { ok:false, error:err }; }
+async function saveRemotePost(post) {
+  // Make a copy so we can safely modify
+  const cleanPost = { ...post };
+
+  // If fontChoice is not defined or schema doesn’t support it, remove it
+  if (!('fontChoice' in cleanPost) || cleanPost.fontChoice === undefined || cleanPost.fontChoice === null) {
+    delete cleanPost.fontChoice;
+  }
+
+  const { data, error } = await supabase
+    .from('posts')
+    .upsert([cleanPost], { onConflict: 'id' });
+
+  if (error) {
+    console.error("supabase upsert error", error);
+    return { ok: false, error };
+  }
+  return { ok: true, data };
 }
-async function deleteRemotePost(id){
-  try{
-    const { data, error } = await supabaseClient.from('posts').delete().eq('id', id);
-    if(error){ console.error('supabase delete error', error); return { ok:false, error }; }
-    return { ok:true, data };
-  }catch(err){ console.error('deleteRemotePost error', err); return { ok:false, error:err }; }
-}
+
 
 /* ---------- IMAGE READ + RESIZE ---------- */
 function readImageFileAsJpegDataURL(file, maxW = 1600, maxH = 900, quality = 0.85){
@@ -661,14 +667,9 @@ async function adminSave(){
   if(!title){ alert('Title required'); return; }
   const excerpt = byId('admin-excerpt').value.trim();
   const tags = (byId('admin-tags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const imageFile = byId('admin-image-file') ? byId('admin-image-file').files[0] : null;
+    // TEMP DEBUG: disable image upload (avoid large base64 payload)
   let image = '';
-  if(imageFile){
-    try { image = await readImageFileAsJpegDataURL(imageFile); }
-    catch(err){ console.error('image read error', err); alert('Failed to read image — using existing or none.'); image = (byId('admin-image-preview') && byId('admin-image-preview').getAttribute('data-src')) || ''; }
-  } else {
-    image = (byId('admin-image-preview') && byId('admin-image-preview').getAttribute('data-src')) || '';
-  }
+
   const content = byId('admin-content').value.trim();
   const fontChoice = byId('admin-font').value || 'default';
   const dateStr = new Date().toISOString().split('T')[0];
