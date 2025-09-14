@@ -25,43 +25,26 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
-
+    /* (styles unchanged from your original — omitted here would be long; keep everything as you had) */
     header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:linear-gradient(90deg,#0b0b0d,#121217);position:sticky;top:0;z-index:80;border-bottom:4px solid var(--red-line);}    
     #brand{display:flex;gap:12px;align-items:center}
     #logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--magenta),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Rye', 'Space Grotesk', system-ui;font-size:28px;letter-spacing:1px}
     #site-title{font-family:'Rye', 'Space Grotesk', system-ui;font-weight:700;letter-spacing:0.6px;font-size:20px}
     #brand .small{font-family:'Rye', 'Merriweather', serif; font-size:12px; opacity:0.9}
-
     nav a{font-family:'Roboto Slab', 'Montserrat', serif; color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600}
     nav a:hover{color:var(--magenta)}
-
     .container{max-width:1180px;margin:26px auto;padding:0 18px}
-
     .hero{border-radius:var(--radius);overflow:hidden;background:linear-gradient(180deg,rgba(138,43,226,0.04),rgba(0,0,0,0.25));border:1px solid rgba(255,255,255,0.03);position:relative;margin-top:20px;box-shadow:inset 0 6px 0 0 rgba(0,0,0,0.2)}
     .hero::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--red-line)}
     .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--red-line);border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius)}
     .hero-side{width:64px;background:linear-gradient(180deg,#0c0c0f,#060608);display:flex;align-items:center;justify-content:center}
     .hero-center{flex:1;padding:36px;position:relative;min-height:260px; display:flex; align-items:center; justify-content:center; text-align:center;}
-    .hero-center::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-        background-image: var(--bg-image);
-        z-index: 1;
-        filter: blur(8px) brightness(0.6);
-        transform: scale(1.05);
-    }
-    .hero-center > * {
-        position: relative;
-        z-index: 2;
-    }
+    .hero-center::before { content: ''; position: absolute; inset: 0; background-size: cover; background-position: center; background-image: var(--bg-image); z-index: 1; filter: blur(8px) brightness(0.6); transform: scale(1.05); }
+    .hero-center > * { position: relative; z-index: 2; }
     .hero-water{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:900;font-size:110px;color:rgba(255,255,255,0.04);pointer-events:none;white-space:nowrap}
     .hero-inner{position:relative;z-index:2;text-align:center}
     .hero-title{font-family:Merriweather,serif;font-size:40px;margin:0}
     .hero-sub{color:var(--muted);margin-top:8px}
-
     .tiles-wrap{margin-top:22px}
     .tiles{display:grid;grid-template-columns:repeat(1,1fr);gap:16px}
     @media(min-width:760px){.tiles{grid-template-columns:repeat(2,1fr)}}
@@ -74,25 +57,12 @@
     .tile h3{margin:0;font-family:Space Grotesk}
     .tile p{margin:6px 0 0;color:var(--muted);font-size:0.95rem}
     .new-badge{position:absolute;top:12px;left:12px;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;padding:6px 8px;border-radius:999px;font-weight:700;z-index:4;font-size:12px}
-
     .post{background:var(--panel);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);margin-top:20px}
     .post-cover{height:40vh;min-height:200px;border-radius:10px;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .post-cover::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      background-image: var(--post-bg-image);
-      z-index: 1;
-      filter: blur(8px) brightness(0.6);
-      transform: scale(1.03);
-      border-radius:10px;
-    }
+    .post-cover::before { content: ''; position: absolute; inset: 0; background-size: cover; background-position: center; background-image: var(--post-bg-image); z-index: 1; filter: blur(8px) brightness(0.6); transform: scale(1.03); border-radius:10px; }
     .post-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.6));border-radius:10px;z-index:2}
     .post h1{position:relative;z-index:3;margin:0}
     .meta{color:var(--muted);margin-top:8px}
-
     .admin-grid{display:grid;grid-template-columns:1fr;gap:16px}
     @media(min-width:990px){.admin-grid{grid-template-columns:2fr 1fr}}
     .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
@@ -102,51 +72,41 @@
     .controls button{margin-left:8px;padding:6px 8px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
     .btn-mag{background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff}
     .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-
     input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff}
     textarea{min-height:120px;resize:vertical;line-height:1.6;white-space:pre-wrap}
     label{display:block;margin-bottom:6px;font-weight:700}
-
     footer{margin:36px 0;color:var(--muted);text-align:center}
     .footer-link{font-family:'Roboto Slab', serif; color:var(--magenta);font-weight:700;text-decoration:none}
-
     .small{font-size:0.9rem;color:var(--muted)}
     .muted{color:var(--muted)}
-
-    .suggest-float-btn{
-      position:fixed;right:18px;bottom:18px;z-index:200;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;border:none;border-radius:999px;padding:12px 14px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer; font-family:'Roboto Slab', serif; }
+    .suggest-float-btn{ position:fixed;right:18px;bottom:18px;z-index:200;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;border:none;border-radius:999px;padding:12px 14px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.6);cursor:pointer; font-family:'Roboto Slab', serif; }
     .suggest-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:210;padding:20px}
     .suggest-modal{background:var(--panel);border-radius:14px;padding:18px;max-width:760px;width:100%;border:1px solid rgba(255,255,255,0.04)}
     .suggest-close{position:absolute;right:22px;top:18px;background:transparent;border:none;color:var(--muted);font-weight:700;cursor:pointer}
-
     .suggest-btn{padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--magenta),var(--purple));color:#fff;cursor:pointer;font-weight:700}
     .suggest-status{font-size:0.85rem;color:var(--muted)}
-
     #s-text { background: rgba(0,0,0,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.04); font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height:1.6; border-radius:8px; padding:10px; width:100%; min-height:90px; max-height:240px; white-space:pre-wrap; }
-
     .font-title-space { font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:700; }
     .font-title-merri { font-family: 'Merriweather', Georgia, serif; font-weight:700; font-style:normal; }
     .font-title-inter { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:600; }
-
     .font-tags-mont { font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:600; letter-spacing:0.6px; text-transform:lowercase; }
     .font-tags-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; font-weight:600; font-size:0.95rem; }
-
     .tag-pill { display:inline-block;padding:6px 8px;margin-right:8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700;font-size:0.85rem; }
-
     .md-font-1 { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:300; line-height:1.65; }
     .md-font-2 { font-family: 'Merriweather', Georgia, serif; font-weight:400; line-height:1.7; }
     .md-font-3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight:600; line-height:1.6; }
     .md-font-4 { font-family: 'Merriweather', Georgia, serif; font-weight:700; font-style:italic; line-height:1.6; }
-
     .font-preview{padding:8px;border-radius:8px;border:1px dashed rgba(255,255,255,0.03);margin-top:6px}
-
     #live-preview{margin-top:12px;padding:12px;background:rgba(255,255,255,0.01);border-radius:8px;border:1px solid rgba(255,255,255,0.03);max-height:360px;overflow:auto}
     #live-preview h1,#live-preview h2,#live-preview h3{margin:6px 0}
     #live-preview p{margin:8px 0}
-
     .image-preview-wrap{display:flex;gap:8px;align-items:center;margin-top:6px}
     .image-preview-wrap img{max-width:120px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);object-fit:cover;max-height:90px}
     .remove-image-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:6px 8px;border-radius:8px;cursor:pointer}
+    .status-indicator{padding:4px 8px;border-radius:4px;font-size:0.85rem;margin-left:8px}
+    .status-success{background:rgba(0,255,0,0.1);color:#4ade80}
+    .status-error{background:rgba(255,0,0,0.1);color:#f87171}
+    .status-pending{background:rgba(255,255,0,0.1);color:#fbbf24}
   </style>
 </head>
 <body>
@@ -258,6 +218,7 @@
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button id="export-btn" class="btn-ghost">Export JSON</button>
           <button id="import-btn" class="btn-ghost">Import JSON</button>
+          <button id="sync-btn" class="btn-ghost">Sync to Remote</button>
         </div>
       </div>
 
@@ -296,6 +257,7 @@
           <button id="clear-btn" class="btn-ghost">Clear</button>
           <button id="logout-btn" class="btn-ghost" style="margin-left:auto">Logout</button>
         </div>
+        <div id="save-status" style="margin-top:8px"></div>
       </div>
     </section>
   </template>
@@ -313,11 +275,7 @@
   </template>
 
 <!-- Supabase client -->
-<!-- Use the UMD build from jsdelivr (if blocked, try the unpkg line below instead) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
-<!-- fallback alternative if jsdelivr is blocked:
-<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
--->
 
 <script>
 /* ---------- CONFIG ---------- */
@@ -335,12 +293,11 @@ const SUGGESTION_EMAIL = 'helloemmiti@gmail.com'; // fallback and used for forms
 /* ---------- helpers ---------- */
 const byId = id => document.getElementById(id);
 const q = (s,ctx=document) => ctx.querySelector(s);
-function slugify(s){ return String(s).toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'').replace(/\-+/g,'-'); }
+function slugify(s){ return String(s||'').toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'').replace(/\-+/g,'-'); }
 function savePosts(){ try { localStorage.setItem('blogPosts', JSON.stringify(posts)); } catch(e){ console.error('save', e); } }
 function safeLoad(){ try { const raw = localStorage.getItem('blogPosts'); posts = raw ? JSON.parse(raw) : DEFAULT_POSTS.slice(); } catch(e){ console.error('load', e); posts = DEFAULT_POSTS.slice(); } isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; }
 
 /* ---------- supabase init ---------- */
-/* IMPORTANT: use a different variable name than the global `supabase` to avoid TDZ/name collision */
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /* ---------- remote helpers ---------- */
@@ -351,26 +308,64 @@ async function fetchRemotePosts(){
     return data || [];
   } catch(err){ console.error('fetchRemotePosts', err); return null; }
 }
+
 async function saveRemotePost(post) {
-  // Make a copy so we can safely modify
-  const cleanPost = { ...post };
+  try {
+    const cleanPost = {
+      id: post.id,
+      title: post.title || '',
+      excerpt: post.excerpt || '',
+      tags: Array.isArray(post.tags) ? post.tags : [],
+      content: post.content || '',
+      date: post.date || new Date().toISOString().split('T')[0],
+      image: post.image || '',
+      // send lowercase column name to Supabase if that's your DB column
+      fontchoice: post.fontchoice || post.fontChoice || 'default'
+    };
 
-  // If fontChoice is not defined or schema doesn’t support it, remove it
-  if (!('fontChoice' in cleanPost) || cleanPost.fontChoice === undefined || cleanPost.fontChoice === null) {
-    delete cleanPost.fontChoice;
+    const { data, error } = await supabaseClient
+      .from('posts')
+      .upsert([cleanPost], { onConflict: 'id' });
+
+    if (error) {
+      console.error("supabase upsert error", error);
+      return { ok: false, error };
+    }
+    return { ok: true, data };
+  } catch (err) {
+    console.error("saveRemotePost exception:", err);
+    return { ok: false, error: err.message };
   }
-
-  const { data, error } = await supabase
-    .from('posts')
-    .upsert([cleanPost], { onConflict: 'id' });
-
-  if (error) {
-    console.error("supabase upsert error", error);
-    return { ok: false, error };
-  }
-  return { ok: true, data };
 }
 
+async function deleteRemotePost(postId) {
+  try {
+    const { error } = await supabaseClient
+      .from('posts')
+      .delete()
+      .eq('id', postId);
+
+    if (error) {
+      console.error("supabase delete error", error);
+      return { ok: false, error };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.error('deleteRemotePost exception:', err);
+    return { ok: false, error: err.message };
+  }
+}
+
+async function syncAllPostsToRemote() {
+  let successCount = 0;
+  let failCount = 0;
+  for (const post of posts) {
+    const result = await saveRemotePost(post);
+    if (result.ok) successCount++;
+    else { failCount++; console.error(`Failed to sync post ${post.id}:`, result.error); }
+  }
+  return { successCount, failCount, total: posts.length };
+}
 
 /* ---------- IMAGE READ + RESIZE ---------- */
 function readImageFileAsJpegDataURL(file, maxW = 1600, maxH = 900, quality = 0.85){
@@ -406,7 +401,7 @@ function readImageFileAsJpegDataURL(file, maxW = 1600, maxH = 900, quality = 0.8
 }
 
 /* ---------- MARKDOWN RENDERER ---------- */
-function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function mdToHtml(md){
   if(!md) return '';
   let text = md.replace(/\r/g,'');
@@ -662,15 +657,16 @@ function loadIntoForm(id){
 }
 
 async function adminSave(){
-  const editId = byId('edit-id').value.trim();
-  const title = byId('admin-title').value.trim();
+  const editId = (byId('edit-id').value || '').trim();
+  const title = (byId('admin-title').value || '').trim();
   if(!title){ alert('Title required'); return; }
-  const excerpt = byId('admin-excerpt').value.trim();
+  const excerpt = (byId('admin-excerpt').value || '').trim();
   const tags = (byId('admin-tags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
-    // TEMP DEBUG: disable image upload (avoid large base64 payload)
-  let image = '';
 
-  const content = byId('admin-content').value.trim();
+  const previewImg = byId('admin-image-preview');
+  const image = previewImg && previewImg.getAttribute('data-src') ? previewImg.getAttribute('data-src') : '';
+
+  const content = (byId('admin-content').value || '').trim();
   const fontChoice = byId('admin-font').value || 'default';
   const dateStr = new Date().toISOString().split('T')[0];
 
@@ -683,18 +679,20 @@ async function adminSave(){
     posts[idx].image = image;
     posts[idx].content = content;
     posts[idx].fontChoice = fontChoice;
+    posts[idx].fontchoice = fontChoice;
+    posts[idx].date = dateStr;
     savePosts();
-    const res = await saveRemotePost({ id: editId, title, excerpt, tags, image, content, fontChoice, date: dateStr });
+    const res = await saveRemotePost(posts[idx]);
     if(!res.ok) alert('Updated locally but remote save failed. Check console.');
     else alert('Post updated (local & remote).');
     renderAdmin();
   } else {
     const id = slugify(title) || Date.now().toString();
-    const newPost = { id, title, watermark: title.replace(/\s+/g,''), date: dateStr, excerpt, tags, image, content, fontChoice };
+    const newPost = { id, title, watermark: title.replace(/\s+/g,''), date: dateStr, excerpt, tags, image, content, fontChoice, fontchoice: fontChoice };
     if(posts.length === 0) posts.unshift(newPost);
     else posts.splice(1,0,newPost);
     savePosts();
-    const res = await saveRemotePost({ id, title, excerpt, tags, image, content, fontChoice, date: dateStr });
+    const res = await saveRemotePost(newPost);
     if(!res.ok) alert('Created locally but failed to publish remotely — check console.');
     else alert('Post created (local & remote).');
     renderAdmin();
@@ -816,6 +814,17 @@ function renderAdmin(){
     inp.click();
   };
 
+  const syncBtn = byId('sync-btn');
+  if(syncBtn){
+    syncBtn.onclick = async ()=> {
+      const status = byId('save-status');
+      if(status) status.textContent = 'Syncing...';
+      const res = await syncAllPostsToRemote();
+      if(status) status.textContent = `Sync complete — ${res.successCount} succeeded, ${res.failCount} failed.`;
+      setTimeout(()=> { if(status) status.textContent = ''; }, 4000);
+    };
+  }
+
   const adminContentTa = byId('admin-content');
   if(adminContentTa){
     adminContentTa.addEventListener('paste', handlePasteToTextarea);
@@ -834,7 +843,7 @@ function renderAdmin(){
       const f = ev.target.files[0];
       if(!f){ showAdminImagePreview(''); return; }
       try{
-        const preview = await readImageFileAsJpegDataURL(f, 600, 400, 0.8);
+        const preview = await readImageFileAsJpegDataURL(f, 1600, 900, 0.8);
         showAdminImagePreview(preview);
       }catch(err){
         console.error('preview error', err);
@@ -871,37 +880,41 @@ function updateUI(){
   const create = byId('create-post-btn'); if(create) create.style.display = isLoggedIn? 'inline-block':'none';
 }
 
-/* ---------- INIT ---------- */
+/* ---------- INIT (fixed) ---------- */
 window.addEventListener('hashchange', router);
-window.addEventListener('load', async ()=>{
-  try{
+window.addEventListener('load', async () => {
+  try {
     const remote = await fetchRemotePosts();
-    if(remote && remote.length){
+    if (remote && remote.length) {
+      // Map remote rows to the shape the UI expects (fontChoice for UI, and keep fontchoice for DB)
       posts = remote.map(r => ({
         id: r.id,
         title: r.title,
         excerpt: r.excerpt,
-        tags: Array.isArray(r.tags) ? r.tags : (r.tags ? String(r.tags).split(',').map(s=>s.trim()) : []),
+        tags: Array.isArray(r.tags) ? r.tags : (r.tags ? String(r.tags).split(',').map(s => s.trim()) : []),
         image: r.image,
         content: r.content,
-        fontChoice: r.fontChoice || 'default',
-        date: r.date ? (typeof r.date === 'string' ? r.date : new Date(r.date).toISOString().split('T')[0]) : (r.created_at ? r.created_at.split('T')[0] : new Date().toISOString().split('T')[0])
+        fontchoice: r.fontchoice || r.fontChoice || 'default',
+        fontChoice: r.fontchoice || r.fontChoice || 'default',
+        date: r.date
+          ? (typeof r.date === 'string' ? r.date : new Date(r.date).toISOString().split('T')[0])
+          : (r.created_at ? r.created_at.split('T')[0] : new Date().toISOString().split('T')[0])
       }));
       savePosts();
     } else {
       safeLoad();
     }
-  }catch(err){
+  } catch (err) {
     console.error('init fetch error', err);
     safeLoad();
   }
 
   updateUI();
-  const twitter = byId('twitter'); if(twitter) twitter.href = 'https://twitter.com/askmewhywhat';
-  const createBtn = byId('create-post-btn'); if(createBtn) createBtn.addEventListener('click', e=>{ e.preventDefault(); location.hash='create-post'; });
-  const openBtn = byId('open-suggest-btn'); if(openBtn) openBtn.addEventListener('click', openSuggestModal);
-  const closeBtn = byId('close-suggest'); if(closeBtn) closeBtn.addEventListener('click', closeSuggestModal);
-  const overlay = byId('suggest-modal'); if(overlay) overlay.addEventListener('click', (ev)=> { if(ev.target === overlay) closeSuggestModal(); });
+  const twitter = byId('twitter'); if (twitter) twitter.href = 'https://twitter.com/askmewhywhat';
+  const createBtn = byId('create-post-btn'); if (createBtn) createBtn.addEventListener('click', e => { e.preventDefault(); location.hash = 'create-post'; });
+  const openBtn = byId('open-suggest-btn'); if (openBtn) openBtn.addEventListener('click', openSuggestModal);
+  const closeBtn = byId('close-suggest'); if (closeBtn) closeBtn.addEventListener('click', closeSuggestModal);
+  const overlay = byId('suggest-modal'); if (overlay) overlay.addEventListener('click', (ev) => { if (ev.target === overlay) closeSuggestModal(); });
   router();
 });
 </script>
