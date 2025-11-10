@@ -4,37 +4,36 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Emmiti - A emmiti blog</title>
-  <meta name="description" content="Single-file blog with Markdown + Admin" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&family=Merriweather:wght@400;700&family=Roboto+Slab:wght@300;400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+  <meta name="description" content="Single-file blog with Markdown + Admin (create/edit/delete)" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0f1419;
-      --bg-secondary:#1a1f2e;
-      --panel:#242b3d;
-      --border:#2d3548;
-      --text:#e4e6eb;
-      --text-muted:#8b92a8;
-      --accent:#4a90e2;
-      --accent-hover:#5ba3f5;
-      --accent-dark:#3a7bc8;
-      --dark-blue:#1e2a3a;
-      --slate-blue:#364152;
-      --steel-grey:#5c6574;
-      --light-grey:#9ca3af;
-      --charcoal:#1c232f;
+      --bg:#0a0a0f;
+      --bg-secondary:#0f0f15;
+      --panel:#14141c;
+      --border:#1f1f2d;
+      --text:#e5e7eb;
+      --text-muted:#9ca3af;
+      --accent:#c41e5e;
+      --accent-hover:#a01850;
+      --accent-dark:#8b1344;
+      --red-accent:#b91c1c;
+      --magenta-dark:#7d1745;
+      --deep-blue:#0A2342;
+      --muted-gold:#C6A667;
+      --warm-grey:#7A7A7A;
+      --burgundy:#58181F;
+      --forest-green:#254D32;
       --radius:8px;
     }
     
     [data-theme="light"]{
-      --bg:#f5f7fa;
+      --bg:#f8f9fa;
       --bg-secondary:#ffffff;
       --panel:#ffffff;
-      --border:#d1d5db;
+      --border:#e5e7eb;
       --text:#1f2937;
       --text-muted:#6b7280;
-      --accent:#2563eb;
-      --accent-hover:#3b82f6;
-      --dark-blue:#1e3a8a;
     }
     
     *{box-sizing:border-box;margin:0;padding:0}
@@ -60,7 +59,7 @@
     
     header{
       background:var(--bg-secondary);
-      border-bottom:2px solid var(--accent);
+      border-bottom:2px solid var(--deep-blue);
       position:sticky;
       top:0;
       z-index:100;
@@ -86,7 +85,7 @@
       width:40px;
       height:40px;
       border-radius:6px;
-      background:linear-gradient(135deg, var(--accent), var(--dark-blue));
+      background:linear-gradient(135deg, var(--accent), var(--magenta-dark));
       display:flex;
       align-items:center;
       justify-content:center;
@@ -160,7 +159,7 @@
       border-radius:var(--radius);
       overflow:hidden;
       background:var(--panel);
-      border:2px solid var(--slate-blue);
+      border:2px solid var(--deep-blue);
       margin-bottom:3rem;
       position:relative;
       min-height:400px;
@@ -195,16 +194,11 @@
     
     .hero-title{
       font-family:'Playfair Display',serif;
-      font-size:2.5rem;
+      font-size:3rem;
       font-weight:700;
       margin-bottom:1rem;
-      line-height:1.3;
-      letter-spacing:-0.5px;
-      max-width:900px;
-      margin-left:auto;
-      margin-right:auto;
-      word-wrap:break-word;
-      overflow-wrap:break-word;
+      line-height:1.2;
+      letter-spacing:-1px;
     }
     
     .hero-sub{
@@ -226,31 +220,7 @@
         grid-template-columns:1fr;
       }
       .hero-title{
-        font-size:1.75rem;
-        line-height:1.3;
-      }
-      .hero-sub{
-        font-size:1rem;
-      }
-      .header-container{
-        flex-direction:column;
-        gap:1rem;
-        text-align:center;
-      }
-      nav{
-        gap:1.5rem;
-      }
-      .container{
-        padding:2rem 1rem;
-      }
-      .controls{
-        flex-direction:column;
-      }
-      .post h1{
-        font-size:1.75rem;
-      }
-      .post-cover{
-        height:300px;
+        font-size:2rem;
       }
     }
     
@@ -265,13 +235,12 @@
       display:flex;
       align-items:flex-end;
       padding:1.5rem;
-      transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+      transition:transform 0.3s,border-color 0.3s;
     }
     
     .tile:hover{
       transform:translateY(-4px);
       border-color:var(--accent);
-      box-shadow:0 8px 24px rgba(74,144,226,0.15);
     }
     
     .tile .bg{
@@ -295,15 +264,10 @@
     
     .tile h3{
       font-family:'Playfair Display',serif;
-      font-size:1.25rem;
+      font-size:1.5rem;
       font-weight:600;
       margin-bottom:0.5rem;
-      line-height:1.4;
-      display:-webkit-box;
-      -webkit-line-clamp:3;
-      -webkit-box-orient:vertical;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      line-height:1.3;
     }
     
     .tile p{
@@ -326,15 +290,23 @@
     }
     
     .badge-new{
-      background:linear-gradient(90deg, var(--accent), var(--accent-hover));
+      background:linear-gradient(90deg, var(--red-accent), var(--accent));
     }
     
     .badge-featured{
-      background:linear-gradient(90deg, var(--steel-grey), var(--slate-blue));
+      background:linear-gradient(90deg, var(--muted-gold), var(--burgundy));
     }
     
     .badge-series{
-      background:linear-gradient(90deg, var(--dark-blue), var(--charcoal));
+      background:linear-gradient(90deg, var(--deep-blue), var(--forest-green));
+    }
+    
+    .reading-time{
+      display:inline-flex;
+      align-items:center;
+      gap:0.25rem;
+      color:var(--text-muted);
+      font-size:0.875rem;
     }
     
     .post{
@@ -374,7 +346,7 @@
       justify-content:center;
       overflow:hidden;
       margin-bottom:2rem;
-      border:2px solid var(--slate-blue);
+      border:2px solid var(--deep-blue);
     }
     
     .post-cover::before{
@@ -404,15 +376,10 @@
       z-index:3;
       margin:0;
       font-family:'Playfair Display',serif;
-      font-size:2.25rem;
+      font-size:2.5rem;
       font-weight:700;
-      line-height:1.3;
-      letter-spacing:-0.5px;
-      max-width:90%;
-      margin:0 auto;
-      word-wrap:break-word;
-      overflow-wrap:break-word;
-      padding:0 1rem;
+      line-height:1.2;
+      letter-spacing:-1px;
     }
     
     .post-meta{
@@ -458,27 +425,24 @@
     #post-content{
       max-width:750px;
       margin:0 auto;
-      font-size:1.0625rem;
-      line-height:1.8;
     }
     
     #post-content h1,#post-content h2,#post-content h3{
       font-family:'Playfair Display',serif;
       margin:2rem 0 1rem;
-      line-height:1.4;
-      letter-spacing:-0.3px;
+      line-height:1.3;
+      letter-spacing:-0.5px;
       color:var(--text);
     }
     
-    #post-content h1{font-size:2rem;font-weight:700}
-    #post-content h2{font-size:1.75rem;font-weight:700;border-bottom:2px solid var(--accent);padding-bottom:0.5rem}
-    #post-content h3{font-size:1.5rem;font-weight:600}
+    #post-content h1{font-size:2rem}
+    #post-content h2{font-size:1.75rem;border-bottom:2px solid var(--deep-blue);padding-bottom:0.5rem}
+    #post-content h3{font-size:1.5rem}
     
     #post-content p{
-      margin:1.5rem 0;
-      line-height:1.8;
+      margin:1.25rem 0;
+      line-height:1.7;
       font-size:1.0625rem;
-      color:var(--text);
     }
     
     #post-content a{
@@ -514,7 +478,7 @@
       border-radius:var(--radius);
       overflow-x:auto;
       margin:1.5rem 0;
-      border:1px solid var(--slate-blue);
+      border:1px solid var(--deep-blue);
     }
     
     #post-content pre code{
@@ -533,7 +497,7 @@
     }
     
     #post-content blockquote{
-      border-left:4px solid var(--accent);
+      border-left:4px solid var(--muted-gold);
       padding-left:1.5rem;
       margin:1.5rem 0;
       font-style:italic;
@@ -593,7 +557,7 @@
     }
     
     .post-item:hover{
-      border-color:var(--steel-grey);
+      border-color:var(--warm-grey);
     }
     
     .post-item .left{
@@ -622,7 +586,7 @@
     }
     
     .btn-mag{
-      background:linear-gradient(135deg, var(--accent), var(--dark-blue));
+      background:linear-gradient(135deg, var(--accent), var(--magenta-dark));
       color:#fff;
       border:none;
     }
@@ -651,7 +615,7 @@
     
     .form-hint{
       font-size:0.8125rem;
-      color:var(--light-grey);
+      color:var(--warm-grey);
       margin-top:0.25rem;
       font-style:italic;
     }
@@ -712,7 +676,7 @@
       margin:4rem 0 2rem;
       padding:2rem 1.5rem;
       text-align:center;
-      border-top:2px solid var(--accent);
+      border-top:2px solid var(--deep-blue);
     }
     
     .footer-link{
@@ -731,13 +695,13 @@
       right:1.5rem;
       bottom:1.5rem;
       z-index:200;
-      background:linear-gradient(135deg, var(--accent), var(--dark-blue));
+      background:linear-gradient(135deg, var(--accent), var(--magenta-dark));
       color:#fff;
       border:none;
       border-radius:999px;
       padding:1rem 1.5rem;
       font-weight:600;
-      box-shadow:0 10px 30px rgba(74,144,226,0.3);
+      box-shadow:0 10px 30px rgba(196,30,94,0.4);
       cursor:pointer;
       transition:all 0.2s;
     }
@@ -745,7 +709,7 @@
     .suggest-float-btn:hover{
       background:linear-gradient(135deg, var(--accent-hover), var(--accent-dark));
       transform:translateY(-2px);
-      box-shadow:0 15px 40px rgba(74,144,226,0.4);
+      box-shadow:0 15px 40px rgba(196,30,94,0.5);
     }
     
     .suggest-modal-overlay{
@@ -800,7 +764,7 @@
     }
     
     .suggest-btn{
-      background:linear-gradient(135deg, var(--accent), var(--dark-blue));
+      background:linear-gradient(135deg, var(--accent), var(--magenta-dark));
       color:#fff;
       padding:0.75rem 1.5rem;
       border-radius:var(--radius);
@@ -848,7 +812,7 @@
       margin-right:0.5rem;
       border-radius:999px;
       background:var(--bg);
-      border:1px solid var(--slate-blue);
+      border:1px solid var(--forest-green);
       font-weight:500;
       font-size:0.8125rem;
       color:var(--text-muted);
@@ -894,14 +858,34 @@
       margin:1.5rem 0;
     }
     
-    .font-title-space{font-family:'Playfair Display',serif;font-weight:700}
+    .font-title-space{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700}
     .font-title-merri{font-family:'Merriweather',Georgia,serif;font-weight:700}
-    .font-title-inter{font-family:'Inter',system-ui,sans-serif;font-weight:700}
-    .font-tags-mont{font-family:'Montserrat',system-ui,sans-serif;font-weight:500;letter-spacing:0.3px}
+    .font-title-inter{font-family:'Inter',system-ui,sans-serif;font-weight:600}
+    .font-tags-mont{font-family:'Inter',system-ui,sans-serif;font-weight:500;letter-spacing:0.3px}
     .font-tags-mono{font-family:ui-monospace,monospace;font-weight:600;font-size:0.95rem}
-    .md-font-1{font-family:'Inter',system-ui,sans-serif;font-weight:400;line-height:1.8;font-size:1.0625rem}
-    .md-font-2{font-family:'Merriweather',Georgia,serif;font-weight:400;line-height:1.8;font-size:1.0625rem}
-    .md-font-3{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;line-height:1.75;font-size:1.0625rem}
+    .md-font-1{font-family:'Inter',system-ui,sans-serif;font-weight:300;line-height:1.65}
+    .md-font-2{font-family:'Merriweather',Georgia,serif;font-weight:400;line-height:1.7}
+    .md-font-3{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:600;line-height:1.6}
+    
+    @media(max-width:768px){
+      .header-container{
+        flex-direction:column;
+        gap:1rem;
+        text-align:center;
+      }
+      nav{
+        gap:1.5rem;
+      }
+      .container{
+        padding:2rem 1rem;
+      }
+      .post h1{
+        font-size:2rem;
+      }
+      .controls{
+        flex-direction:column;
+      }
+    }
   </style>
 </head>
 <body>
@@ -927,10 +911,10 @@
   <main class="container" id="main"></main>
 
   <footer>
-    <div style="font-family:'Roboto Slab', serif">© 2025 Emmiti</div>
+    <div>© 2025 Emmiti</div>
     <div class="centered-suggest">
       <form id="suggest-form" class="suggest-form" onsubmit="return submitSuggestionAjax(event)" autocomplete="off" style="display:flex;flex-direction:column;gap:0.75rem">
-        <label class="small" for="s-text" style="text-align:left;margin:0 0 0.25rem;font-weight:700">Hit me with your ideas, fling your critiques, or summon the post you crave.</label>
+        <label class="small" for="s-text" style="text-align:left;margin:0 0 0.25rem">Hit me with your ideas, fling your critiques, or summon the post you crave.</label>
         <textarea id="s-text" name="message" placeholder="Short idea, comment or a link..." required></textarea>
         <div style="display:flex;justify-content:flex-end;align-items:center;gap:1rem">
           <div id="suggest-status" class="suggest-status"></div>
@@ -997,7 +981,7 @@
       <div class="post-meta" id="post-meta"></div>
       <div class="share-buttons">
         <button class="share-btn" onclick="shareTwitter()">🐦 Twitter</button>
-        <button class="share-btn" onclick="shareWhatsApp()">💬 WhatsApp</button>
+        <button class="share-btn" onclick="shareLinkedIn()">💼 LinkedIn</button>
         <button class="share-btn" onclick="copyLink()">🔗 Copy Link</button>
       </div>
       <div id="post-content"></div>
@@ -1114,8 +1098,8 @@ const SUPABASE_URL = 'https://zowkyufjsbgsqgteqhue.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpvd2t5dWZqc2Jnc3FndGVxaHVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1ODM0ODgsImV4cCI6MjA3MzE1OTQ4OH0.Lc6pGp5d0xwaxaSjr9vm-weOG6i3HHsFRZP70ti7law';
 
 const DEFAULT_POSTS = [
-  { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'https://placehold.co/1600x900/1e2a3a/4a90e2?text=Welcome', content:'# Hello\n\nThis is **Emmiti** — write posts in Markdown.\n\n- Item one\n- Item two', fontChoice:'default', featured:true, series:'' },
-  { id:'sample', title:'Deep Blue Dreams', date:'2025-09-08', excerpt:'Styled with deep blue & grey tones.', tags:['style'], image:'https://placehold.co/1200x800/242b3d/5ba3f5?text=Deep+Blue', content:'### Colors\n\nThis theme uses modern dark blue and grey colors for a sophisticated look.', fontChoice:'fontA', featured:false, series:'Part 1 of 3: Design Series' }
+  { id:'hero', title:'Welcome to Emmiti', watermark:'WELCOME', date:'2025-09-09', excerpt:'A markdown-enabled single-file blog.', tags:['intro'], image:'https://placehold.co/1600x900/1b1b1b/ffffff?text=Welcome', content:'# Hello\n\nThis is **Emmiti** — write posts in Markdown.\n\n- Item one\n- Item two', fontChoice:'default', featured:true, series:'' },
+  { id:'sample', title:'Magenta Dreams', date:'2025-09-08', excerpt:'Styled with magenta & purple.', tags:['style'], image:'https://placehold.co/1200x800/333/fff?text=Magenta+Dreams', content:'### Colors\n\nThis theme uses modern colors for depth and emotion.', fontChoice:'fontA', featured:false, series:'Part 1 of 3: Design Series' }
 ];
 const ADMIN_PASS = 'secret';
 const SUGGESTION_EMAIL = 'helloemmiti@gmail.com';
@@ -1369,11 +1353,9 @@ function shareTwitter(){
   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
 }
 
-function shareWhatsApp(){
+function shareLinkedIn(){
   const url = encodeURIComponent(currentPostUrl);
-  const text = encodeURIComponent(document.title + " - Check this out: ");
-  const whatsappUrl = `https://wa.me/?text=${text}${url}`;
-  window.open(whatsappUrl, '_blank');
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
 }
 
 function copyLink(){
@@ -1424,7 +1406,7 @@ function renderHome(){
   }
 
   const tilesWrap = byId('tiles-tpl').content.firstElementChild.cloneNode(true);
-  const tiles = tilesWrap;
+  const tiles = tilesWrap.querySelector('.tiles');
   const tpl = byId('tile-tpl');
   posts.slice(1).forEach((p, idx) => {
     const node = tpl.content.firstElementChild.cloneNode(true);
@@ -1454,7 +1436,10 @@ function renderHome(){
     node.addEventListener('click', ()=> location.hash = 'post-'+p.id);
     tiles.appendChild(node);
   });
-  main.appendChild(tiles);
+  const wrap = document.createElement('div');
+  wrap.className = 'tiles-wrap';
+  wrap.appendChild(tiles);
+  main.appendChild(wrap);
 }
 
 function renderPost(id){
@@ -1463,16 +1448,11 @@ function renderPost(id){
   currentPostUrl = window.location.href;
   const tpl = byId('post-tpl').content.firstElementChild.cloneNode(true);
   tpl.querySelector('#post-title').textContent = p.title;
-  // index.html - Line 1090 (Replacement code)
   const readTime = calculateReadingTime(p.content);
-  let metaContent = p.date + ` • ${readTime} min read`;
-  if(p.series) metaContent = p.series + ' • ' + metaContent;
-  if(p.tags && p.tags.length) metaContent += ' • ' + p.tags.join(', '); // Use commas instead of pills here
-
-  // Wrap the entire consolidated content in a single tag-pill styled container
-  const wrappedMeta = `<span class="tag-pill" style="padding: 0.5rem 1rem; margin: 0; background: var(--bg-secondary); border-color: var(--border);">${metaContent}</span>`;
-  
-  tpl.querySelector('#post-meta').innerHTML = wrappedMeta;
+  let metaText = p.date + ` • ${readTime} min read`;
+  if(p.series) metaText = p.series + ' • ' + metaText;
+  if(p.tags && p.tags.length) metaText += ' • ' + p.tags.map(t => `<span class="tag-pill">${t}</span>`).join('');
+  tpl.querySelector('#post-meta').innerHTML = metaText;
   const postCover = tpl.querySelector('#post-cover');
   if(p.image && postCover){
     postCover.style.setProperty('--post-bg-image', `url(${p.image})`);
@@ -1508,7 +1488,7 @@ function renderPost(id){
 function renderAbout(){
   const template = document.createElement('section');
   template.className = 'post fade-in';
-  template.innerHTML = `<h2>About</h2><p style="color:var(--text-muted)">I am not here to fit into your comfort, nor to overturn it. I dwell in fear, in doubt, in suffering, in the abyss that stares back and so do you, though your denial serves the greater mystery. My joy is not in happiness but in intensity. To converse with me is to risk not comfort but confrontation, and perhaps to find the courage you never knew you carried. I write as I live close to the bone, tracing the raw and naked details of people, of films, of fleeting moments that cut deeper than appearances.</p>`;
+  template.innerHTML = `<h2>About</h2><p class="muted">I am not here to fit into your comfort, nor to overturn it. I dwell in fear, in doubt, in suffering, in the abyss that stares back and so do you, though your denial serves the greater mystery. My joy is not in happiness but in intensity. To converse with me is to risk not comfort but confrontation, and perhaps to find the courage you never knew you carried. I write as I live close to the bone, tracing the raw and naked details of people, of films, of fleeting moments that cut deeper than appearances.</p>`;
   byId('main').innerHTML = ''; byId('main').appendChild(template);
 }
 
